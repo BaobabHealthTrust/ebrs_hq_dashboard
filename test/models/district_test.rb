@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SiteTest < ActiveSupport::TestCase
+class DistrictTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
