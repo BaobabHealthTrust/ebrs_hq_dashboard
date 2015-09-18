@@ -44,5 +44,7 @@ gem 'rb-readline'
 
 gem 'chronic', '0.10.2'
 
-gem 'whenever',  :require => false  
+gem 'whenever',  :require => false 
+
+gem 'liquid' 
 
