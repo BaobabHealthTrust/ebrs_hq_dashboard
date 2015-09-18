@@ -4,11 +4,17 @@ namespace :ebrs do
   	require Rails.root.join('db','seeds.rb')
   end
 
-  desc "TODO"
+  desc "dc"
   task dc: :environment do
+    require Rails.root.join('bin','pull_from_dc.rb')
   end
-
-  desc "TODO"
+  
+  desc "dc desktop"
+  task dc: :environment do
+    
+  end
+  
+  desc "hq"
   task hq: :environment do
   end
 
