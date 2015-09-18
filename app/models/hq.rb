@@ -10,7 +10,7 @@ class Hq < CouchRest::Model::Base
   design do
     view :by__id
     view :by_category
-    view :current_month_count
-    view :current_year_count
+    view :by_current_month_count
+    view :by_current_year_count
   end 
 end
