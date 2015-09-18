@@ -48,3 +48,5 @@ gem 'whenever',  :require => false
 
 gem 'liquid' 
 
+gem 'rest-client'
+
