@@ -25,11 +25,11 @@ districts.each do |district|
                 :registered => counts["ever_registered"],
                 :approved => counts["ever_approved"])
                 
-       puts "Updated"
+      puts "Updated"
        
     else
     
-       puts "No update"
+      puts "No update"
                    
     end
     
@@ -38,7 +38,7 @@ end
 
 puts "Pulling from DC Desktop"
 
-districts =  ["da", "blk", "ka", "mj"]
+districts =  ["da", "blk", "ka", "mj"].sort
 
 district_params = DCDESKTOP[Rails.env]["remote_http_options"]
 district_codes = {}
@@ -62,11 +62,11 @@ counts.each do |count|
               :registered => count.second["ever_registered"],
               :approved => count.second["ever_approved"])
               
-     puts "Updated"
+    puts "Updated"
      
   else
   
-     puts "No update"
+    puts "No update"
                  
   end
   
