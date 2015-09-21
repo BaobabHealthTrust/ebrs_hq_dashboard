@@ -13,6 +13,7 @@ class Dc < CouchRest::Model::Base
     view :by_district_code
     view :by_registered
     view :by_approved
+    view :by_district_code_and_registered_and_approved
   end 
   
 end
