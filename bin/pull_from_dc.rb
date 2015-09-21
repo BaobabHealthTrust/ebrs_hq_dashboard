@@ -1,6 +1,6 @@
 puts "Pulling from DC"
 
-districts = ["bt", "nu", "ll", "cp"]
+districts = DC[Rails.env]["districts"].split("|").sort
 
 districts.each do |district|
   district_params = DC[district]["remote_http_options"]
@@ -38,8 +38,7 @@ end
 
 puts "Pulling from DC Desktop"
 
-districts =  ["blk", "ck", "cz", "da", "dz", "ka", "kk", "ku", "la", "mc", "mh"] 
-districts += ["mhg", "mj", "mn","mz","nb", "ne", "nn", "ns","pe", "ru", "sa", "to", "za"]
+districts = DCDESKTOP[Rails.env]["districts"].split("|").sort
 
 district_params = DCDESKTOP[Rails.env]["remote_http_options"]
 district_codes = {}
