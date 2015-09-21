@@ -9,13 +9,9 @@ namespace :ebrs do
     require Rails.root.join('bin','pull_from_dc.rb')
   end
   
-  desc "dc desktop"
-  task dc: :environment do
-    
-  end
-  
   desc "hq"
   task hq: :environment do
+    require Rails.root.join('bin','pull_from_hq.rb')
   end
 
 end
