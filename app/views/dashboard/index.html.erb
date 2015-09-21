@@ -1,2 +1,7 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<table>
+<tr><th>District</th><th>Registered</th><th>Approved</th></tr>
+<% @dc.each do |dc|%>
+   <% next if dc.registered.blank? %>
+  <tr><td><%= dc.district_code %></td><td><%= dc.registered %></td><td><%= dc.approved %></td><tr>
+<% end %>
+</table>
