@@ -1,165 +1,21 @@
 development: &development
   protocol: 'http'
   host: localhost
-  port: 5984 
-  prefix: 
-  suffix: 
-  username: 
-  password: 
-  crtkey:
-  district_code:
-  print_user:
-  print_password:
-  printer_name:
-  zoom_percentage: 100
-  pre_printed_paper: true
-  barcodes_path: /home/user/barcodes/
-  
-blk:
-  <<: *development
-  suffix: blk_dc_remote
-  district_code: BLK
+  port: 5984
+  prefix: ebrs_hq_dashboard
+  suffix: development
+  username: admin
+  password: password
 
-bt:
-  <<: *development
-  suffix: bt_dc_remote
-  district_code: BT
-
-ck:
-  <<: *development
-  suffix: ck_dc_remote
-  district_code: CK
-
-cp:
-  <<: *development
-  suffix: cp_dc_remote
-  district_code: CP
-
-cz:
-  <<: *development
-  suffix: cz_dc_remote
-  district_code: CZ
-
-da:
-  <<: *development
-  suffix: da_dc_remote
-  district_code: DA
-
-dz:
-  <<: *development
-  suffix: dz_dc_remote
-  district_code: DZ
-
-ka:
-  <<: *development
-  suffix: ka_dc_remote
-  district_code: KA
-
-kk:
-  <<: *development
-  suffix: kk_dc_remote
-  district_code: KK
-
-ks:
-  <<: *development
-  suffix: ks_dc_remote
-  district_code: KS
-
-la:
-  <<: *development
-  suffix: la_dc_remote
-  district_code: LA
-
-ll:
-  <<: *development
-  suffix: ll_dc_remote
-  district_code: LL
-
-mc:
-  <<: *development
-  suffix: mc_dc_remote
-  district_code: MC
-
-mh:
-  <<: *development
-  suffix: mh_dc_remote
-  district_code: MH
-
-mhg:
-  <<: *development
-  suffix: mhg_dc_remote
-  district_code: MHG
-
-mj:
-  <<: *development
-  suffix: mj_dc_remote
-  district_code: MJ
-
-mn:
-  <<: *development
-  suffix: mn_dc_remote
-  district_code: MN
-
-mz:
-  <<: *development
-  suffix: mz_dc_remote
-  district_code: MZ
-
-nb:
-  <<: *development
-  suffix: nb_dc_remote
-  district_code: NB
-
-ne:
-  <<: *development
-  suffix: ne_dc_remote
-  district_code: NE
-
-nn:
-  <<: *development
-  suffix: nn_dc_remote
-  district_code: NN
-
-ns:
-  <<: *development
-  suffix: ns_dc_remote
-  district_code: NS
-
-nu:
-  <<: *development
-  suffix: nu_dc_remote
-  district_code: NU
-
-pe:
-  <<: *development
-  suffix: pe_dc_remote
-  district_code: PE
-
-ru:
-  <<: *development
-  suffix: ru_dc_remote
-  district_code: RU
-
-sa:
-  <<: *development
-  suffix: sa_dc_remote
-  district_code: SA
-
-to:
-  <<: *development
-  suffix: to_dc_remote
-  district_code: TO
-
-za:
-  <<: *development
-  suffix: za_dc_remote
-  district_code: ZA
-  
 test:
   <<: *development
   suffix: test
 
 production:
-  <<: *development
-  protocol: 'http'
-  suffix:
+  protocol: 'https'
+  host: localhost
+  port: 5984
+  prefix: ebrs_hq_dashboard
+  suffix: production
+  username: root
+  password: 123

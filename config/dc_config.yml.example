@@ -5,11 +5,10 @@ default: &default
     timeout:      10  # data timout - increase for connections known to be slow, decrease to allow faster feedback on broken lines
     open_timeout: 10  # open_timout, same as above
 
-production:
-  <<: *development
   
-development:
+development: &development
   <<: *default
+  districts: bt|nu|ll|cp
   remote_http_options:
     user:         admin
     password:     admin
@@ -18,38 +17,39 @@ development:
     
 bt:
   <<: *development
-  app_uri: http://localhost:3000
+  app_uri: localhost:3000
   remote_http_options:
     user:         admin
-    password:     admin
+    password:     password
     timeout:      600
     open_timeout: 600
 
 nu:
   <<: *development
-  app_uri: http://localhost:3000
+  app_uri: localhost:3000
   remote_http_options:
     user:         admin
-    password:     admin
+    password:     password
     timeout:      600
     open_timeout: 600
 
 ll:
   <<: *development
-  app_uri: http://localhost:3000
+  app_uri: localhost:3000
   remote_http_options:
     user:         admin
-    password:     admin
+    password:     password
     timeout:      600
     open_timeout: 600
 
 cp:
   <<: *development
-  app_uri: http://localhost:3000
+  app_uri: localhost:3000
   remote_http_options:
     user:         admin
-    password:     admin
+    password:     password
     timeout:      600
     open_timeout: 600    
 
-
+production:
+  <<: *development
