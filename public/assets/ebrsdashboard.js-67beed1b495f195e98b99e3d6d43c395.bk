@@ -1,0 +1,565 @@
+ /* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+$(function () {
+
+    //Table spline chanichani
+    var tablecontent = {
+                         "data":[
+                                    {
+                                        "district":"Balaka",
+                                        "registered":[80,50, 60,40,79],
+                                        "everapproved":250,
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10
+                                    },
+                                        {
+                                        "district":"Blantyre",
+                                        "registered":[80,90, 60,23,79],
+                                        "everapproved":150,
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10
+                                    },
+                                        {
+                                        "district":"Chikwawa",
+                                        "registered":[80,50, 60,23,79],
+                                        "everapproved":200,
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10
+                                    },
+                                    {
+                                        "district":"Chiradzulu",
+                                        "registered":[20,40, 90,30,50],
+                                        "everapproved":150,
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8
+                                    },
+                                     {
+                                        "district":"Chitipa",
+                                        "registered":[53,78, 20,100,43],
+                                        "everapproved":150,
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8
+                                    }
+                                ]
+                            }
+
+        //Initializing Aggregates
+        var monthly_registered_aggregate=0;
+        var annual_registered_aggregate=0;
+
+        var monthly_printed_aggregate =0;
+        var annual_printed_aggregate =0;
+
+        var monthly_verified_aggregate =0;
+        var annual_verified_aggregate =0;
+
+        var monthly_re_printed_aggregate =0;
+        var annual_re_printed_aggregate =0;
+
+        var monthly_icomplete_aggregate =0;
+        var annual_incomple_aggregate =0;
+
+        var monthly_supected_duplicates_aggregate =0;
+        var annual_supected_duplicates_aggregate =0;
+
+        var monthly_amendement_request_aggregate =0;
+        var annual_amendement_request_aggregate =0;
+
+        var ever_approved = 0;
+        var ever_registered = 0;
+
+        for (var i in tablecontent.data){
+
+
+            console.log(tablecontent.data[i].district);
+            var row = "<tr><td style='font-weight:bold'>"+tablecontent.data[i].district+"</td><td data-sparkline = \"";
+                var district_total_registered =0;
+                for (var j in tablecontent.data[i].registered){
+                        district_total_registered = district_total_registered + parseInt(tablecontent.data[i].registered[j]);
+
+                        row = row + tablecontent.data[i].registered[j] +",  ";
+                }
+
+                row = row.slice(0,row.lastIndexOf(","));
+
+                row = row+"\"/><td>"+district_total_registered+"</td><td>"+tablecontent.data[i].everapproved+"</td><td id= \'"+i+"\'>"+"Test"+"</td></tr>";
+                console.log(row);
+                $("#table-sparkline tbody").append(row);
+
+
+                ever_approved = ever_approved + tablecontent.data[i].everapproved;
+
+                //Summing aggregates
+                monthly_registered_aggregate = monthly_registered_aggregate + district_total_registered;
+
+                monthly_printed_aggregate = monthly_printed_aggregate + tablecontent.data[i].printed;
+
+                monthly_verified_aggregate = monthly_verified_aggregate +  tablecontent.data[i].verified;
+
+                monthly_re_printed_aggregate = monthly_re_printed_aggregate + tablecontent.data[i].re_printed;
+
+                monthly_icomplete_aggregate = monthly_icomplete_aggregate + tablecontent.data[i].incomplete;
+
+                
+                monthly_supected_duplicates_aggregate = monthly_supected_duplicates_aggregate + tablecontent.data[i].supected_duplicates
+
+                monthly_amendement_request_aggregate = monthly_amendement_request_aggregate + tablecontent.data[i].amendement_request;
+
+
+
+                var approved = (tablecontent.data[i].everapproved/district_total_registered) * 100;
+                drawbarchartforapproval(i,approved);
+
+
+        }
+            //syting sparkline tables
+
+            $("#table-sparkline tbody td").css({"height":"1.5em","min-width":"5em"});
+            //Drawing Bar Charts
+            aggregates("#monthly_registered", monthly_registered_aggregate, monthly_registered_aggregate);
+            aggregates("#annual_registered", monthly_registered_aggregate, monthly_registered_aggregate);
+
+
+            
+            aggregates("#monthly_printed",monthly_printed_aggregate,monthly_registered_aggregate);
+             aggregates("#annual_printed",monthly_printed_aggregate,monthly_registered_aggregate);
+
+
+            aggregates("#monthly_verified",monthly_verified_aggregate,monthly_registered_aggregate);
+            aggregates("#annual_verified",monthly_verified_aggregate,monthly_registered_aggregate);
+
+          
+            aggregates("#monthly_re_printed",monthly_re_printed_aggregate,monthly_registered_aggregate);
+            aggregates("#annual_re_printed",monthly_re_printed_aggregate,monthly_registered_aggregate);
+
+
+            
+             aggregates("#monthly_incomplete",monthly_icomplete_aggregate,monthly_registered_aggregate);
+             aggregates("#annual_incomplete",monthly_icomplete_aggregate,monthly_registered_aggregate);
+
+            
+             aggregates("#monthly_supected_duplicates",monthly_supected_duplicates_aggregate,monthly_registered_aggregate);
+              aggregates("#annual_supected_duplicates",monthly_supected_duplicates_aggregate,monthly_registered_aggregate);
+
+
+            
+             aggregates("#monthly_amendement",monthly_amendement_request_aggregate,monthly_registered_aggregate);
+             aggregates("#annual_amendement",monthly_amendement_request_aggregate,monthly_registered_aggregate);
+               
+
+    //$("#barchart table td ").css({"height":"2em","min-width":"5em"});
+    function aggregates(id, value, registered){
+        var percent = (value/registered) *100;
+        var perId = id+"_percent";
+        //console.log(perId);
+        $(perId).html(parseInt(percent)+"%");
+        drawbarchart(id,percent);
+    }
+
+
+    //Drawing Pie Chart
+    ever_registered = monthly_registered_aggregate;
+    drawPieChart(ever_approved, ever_registered);
+
+
+    //console.log($("#table-sparkline td:fist"));
+    
+     /* Create a constructor for sparklines that takes some sensible defaults and merges in the individual
+     * chart options. This function is also available from the jQuery plugin as $(element).highcharts('SparkLine').
+     */
+    Highcharts.SparkLine = function (options, callback) {
+        var defaultOptions = {
+            chart: {
+                renderTo: (options.chart && options.chart.renderTo) || this,
+                backgroundColor: null,
+                borderWidth: 0,
+                type: 'line',
+                margin: [0, 0, 0, 0],
+                width: 200,
+                height: 20,
+                style: {
+                    overflow: 'visible'
+                },
+                skipClone: true
+            },
+            title: {
+                text: ''
+            },
+            credits: {
+                enabled: false
+            },
+            xAxis: {
+                labels: {
+                    enabled: false
+                },
+                title: {
+                    text: null
+                },
+                startOnTick: false,
+                endOnTick: false,
+                tickPositions: []
+            },
+            yAxis: {
+                endOnTick: false,
+                startOnTick: false,
+                labels: {
+                    enabled: false
+                },
+                title: {
+                    text: null
+                },
+                tickPositions: [0]
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                backgroundColor: null,
+                borderWidth: 0,
+                shadow: false,
+                useHTML: true,
+                hideDelay: 0,
+                shared: true,
+                padding: 0,
+                positioner: function (w, h, point) {
+                    return { x: point.plotX - w / 2, y: point.plotY - h};
+                }
+            },
+            plotOptions: {
+                series: {
+                    animation: false,
+                    lineWidth: 1,
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    marker: {
+                        radius: 1,
+                        states: {
+                            hover: {
+                                radius: 2
+                            }
+                        }
+                    },
+                    fillOpacity: 0.25
+                },
+                column: {
+                    negativeColor: '#910000',
+                    borderColor: 'silver'
+                }
+            }
+        };
+        options = Highcharts.merge(defaultOptions, options);
+
+        return new Highcharts.Chart(options, callback);
+    };
+
+    var start = +new Date(),
+        $tds = $("td[data-sparkline]"),
+        fullLen = $tds.length,
+        n = 0;
+
+    // Creating 153 sparkline charts is quite fast in modern browsers, but IE8 and mobile
+    // can take some seconds, so we split the input into chunks and apply them in timeouts
+    // in order avoid locking up the browser process and allow interaction.
+    function doChunk() {
+        var time = +new Date(),
+            i,
+            len = $tds.length,
+            $td,
+            stringdata,
+            arr,
+            data,
+            chart;
+
+        for (i = 0; i < len; i += 1) {
+            $td = $($tds[i]);
+            stringdata = $td.data('sparkline');
+            arr = stringdata.split('; ');
+            data = $.map(arr[0].split(', '), parseFloat);
+            chart = {};
+
+            if (arr[1]) {
+                chart.type = arr[1];
+            }
+            $td.highcharts('SparkLine', {
+                series: [{
+                    data: data,
+                    pointStart: 1
+                }],
+                tooltip: {
+                    headerFormat: '<span style="font-size: 10px">',
+                    pointFormat: '<b>{point.y}</b> People'
+                },
+                chart: chart
+            });
+
+            n += 1;
+
+            // If the process takes too much time, run a timeout to allow interaction with the browser
+            if (new Date() - time > 500) {
+                $tds.splice(0, i + 1);
+                setTimeout(doChunk, 0);
+                break;
+            }
+
+            // Print a feedback on the performance
+            if (n === fullLen) {
+                $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
+            }
+        }
+    }
+    doChunk();
+
+});
+
+
+
+ //Pie Chart
+ $(function () {
+
+    
+});
+
+//Bar Charts
+
+
+
+ //Draw Bar charts
+ function drawbarchart(container,percent){
+    //var container = '#container';
+                $(function () {
+                $(container).highcharts({
+                    chart: {
+                        type: 'bar',
+                        spacingBottom: 0.5,
+                        spacingTop: 0.5,
+                        spacingLeft: 0.5,
+                        spacingRight: 0.5,
+                        width: null,
+                        height: null
+                    },
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        //categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
+                        labels: {
+                            enabled: false
+                        }
+
+                    },
+                    yAxis: {
+                        min: 0,
+                        labels: {
+                            enabled: false
+                        },
+                        title:{
+                            enabled:false
+                        },
+                        axis:{
+                            enabled:false
+                        },
+                        min: 0,
+                        max: 100
+
+                    },
+                    legend: {
+                                enabled: false
+                     }
+                    ,
+                    tooltip: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Registered',
+                        colors: '#729fcf',
+                        data: [percent],
+                        pointPadding: -2
+                    }]
+                });
+            });
+    }
+
+
+
+    //Approval Bar Char fuction
+    function drawbarchartforapproval(id,approved){
+        console.log("in")
+        $(function () {
+                $('#'+id).highcharts({
+
+                    chart:{
+                        type:"bar",
+                        spacingBottom: 0,
+                        spacingTop: 0,
+                        spacingLeft: 0,
+                        spacingRight: 0,
+                        width: null,
+                        height: 20,
+                        margin: [0, 0, 0, 0]
+
+                    },
+                    title: {
+                            text: ''
+                    }
+                    ,
+                    xAxis:{
+                          labels: {
+                            enabled: false
+                        }
+                    },
+                    yAxis:{
+                        labels: {
+                            enabled: false
+                        },
+                        title:{
+                            enabled:false
+                        },
+                        axis:{
+                            enabled:false
+                        },
+                        min: 0,
+                        max: 100
+
+                    },
+
+                    legend: {
+                                enabled: false
+                     }
+                    ,
+                    
+                    tooltip: {
+                            enabled: false
+                    },
+                    plotOptions: {
+                            bar: {
+                                grouping: false,
+                                shadow: false,
+                                borderWidth: 0
+                            }
+                        }
+                    ,
+                     series: [{
+                                    name: 'Registered ',
+                                    color: '#cfe7f5',
+                                    data: [100],
+                                    pointPadding: -0.3
+                                },
+                                {
+                                    name: 'approve',
+                                    color:'#729fcf',
+                                    data : [approved],
+                                    pointPadding: 0.1
+                                }  
+                            ]
+
+                });
+        });
+    }
+
+function drawPieChart(ever_approved, ever_registered){
+
+            var total = ever_approved + ever_registered;
+            ever_approved_percent = (ever_approved/total)*100;
+           
+            ever_approved_percent = ever_approved_percent.toFixed(1);
+          
+            console.log("Pie Chart"+ ever_approved_percent);
+            var ever_registered_percent = (100 - ever_approved_percent).toFixed(1);
+            console.log("Pie Chart"+ever_registered_percent);
+
+            // Make monochrome colors and set them as default for all pies
+            Highcharts.getOptions().plotOptions.pie.colors = (function () {
+                var colors = [],
+                    base = Highcharts.getOptions().colors[0],
+                    i;
+
+                for (i = 0; i < 10; i += 1) {
+                    // Start out with a darkened base color (negative brighten), and end
+                    // up with a much brighter color
+                    colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
+                }
+                return colors;
+            }());
+
+            // Build the chart
+            $('#piechart').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'National Total Approved vs Total Registered'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
+                            style: {
+                                color:[ (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black']
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: "People",
+
+                    data: [
+                        
+                        {
+                            name: "Ever <br> approved",
+                            color:'#729fcf',
+                            y: parseFloat(ever_approved_percent)
+                        },
+                        {
+                            name: "Ever <br> registered",
+                            color: '#cfe7f5', 
+                            y: parseFloat(ever_registered_percent)
+                        }
+
+                    ]
+                }]
+            });
+
+}
+$(document).ready(
+    function(){
+        //$("#table-sparkline tbody td").css("height","2em");
+        console.log($("#table-sparkline tbody td"));
+    }
+);

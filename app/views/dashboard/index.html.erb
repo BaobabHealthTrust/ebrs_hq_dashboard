@@ -1,7 +1,45 @@
-<table>
-<tr><th>District</th><th>Registered</th><th>Approved</th></tr>
-<% @dc.each do |dc|%>
-   <% next if dc.registered.blank? %>
-  <tr><td><%= dc.district_code %></td><td><%= dc.registered %></td><td><%= dc.approved %></td><tr>
-<% end %>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>eBRS Dashboard</title>
+	<script src="/assets/highcharts/jquery-2.1.1.js"></script>
+	<script src="/assets/highcharts/highcharts.js"></script>
+	<script src="/assets/highcharts/ebrsdashboard.js"></script>
+	<%#= javascript_include_tag 'ebrsdashboard' %>
+	<style type="text/css">
+
+	</style>
+
+</head>
+<body>
+	<table id="main" width="100%" style="" border=0 cellspacing="0">
+	<tr>
+		<td style="border-bottom: 1px solid #004586;;" >
+			&nbsp;
+		</td>
+		<td style="border-bottom: 1px solid #004586;; font-size: 11px; font-weight: bold;" align="center">
+			registrations jul 15 - aug 15
+		</td>
+		<td style="border-bottom: 1px solid #004586;; font-size: 11px; font-weight: bold;" >
+			reported
+		</td>
+		<td style="border-bottom: 1px solid #004586;; font-size: 11px; font-weight: bold;">
+			registered
+		</td>
+		<td style="border-bottom: 1px solid #004586; font-size: 11px; font-weight: bold;">
+			Avg Time
+		</td>
+		<td colspan="" style="border-bottom: 1px solid #004586; font-size: 11px; font-weight: bold;"> <span style="width:0.7em;height:0.5em; margin-right:0.5em;display:inline-block;background:#cfe7f5"></span><font size=1>reported</font> <span style="width:0.7em;height:0.5em;margin-left:0.5em;margin-right:0.5em;display:inline-block;background:#729fcf"></span><font size =1 >registered</font><br>year to date % registered
+		</td>
+
+		<td colspan="6" style="font-size: 18px; text-align: right; border-bottom: 1px solid #004586;">
+			eBRS National Statistics <img style="width:1.5em;hieght:1.5em;" src="/assets/logo.png">
+		</td>
+	</tr>
+
 </table>
+</body>
+
+
+
+</html>

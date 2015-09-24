@@ -1,0 +1,71 @@
+h4{
+	color: #006680;
+}
+th {
+    font-weight: bold;
+    text-align: left;
+}
+td, th {
+    padding: 5px;
+    border-bottom: 1.5px dotted #008FB2;
+}
+
+thead th {
+	border-top: none;
+}
+.row{
+	margin: 0;
+}
+#main{
+	color: 	#004586;
+	width: 99%;
+	max-height: 600px;
+	margin: 0.5% auto;
+	margin-top:0.5%;
+	border: solid 1.5px;
+	border-color: #008FB2;
+}
+
+#main td{
+	font-size: 0.95em;
+
+}
+#barchart{
+	/*background: #003D4C;*/
+	margin-top:1%;
+	margin-right:1%;
+	width: 42em;
+
+
+}
+#barchart table{
+	width: 98%;
+	margin-bottom: 0;
+	margin-bottom: 0;
+}
+#barchart thead{
+	font-size: 0.7em;
+}
+#barchart th{
+	vertical-align: bottom;
+}
+#barchart tbody{
+	font-size: 0.8em;
+}
+
+#barchart td  {
+		height: 3em;
+		width: 15%;
+
+}
+
+/** Styling pie chart*/
+#piechart{
+	color: 	#006680;
+	border: solid 1.5px;
+	border-color: #008FB2; 
+	height: 40em; 
+	max-width: 42em;
+	margin-top: 0.5em;
+	margin-bottom: 0.25em;
+}
