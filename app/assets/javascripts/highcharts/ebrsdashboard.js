@@ -892,7 +892,7 @@ $(function () {
            var graph_id ="graph"+i;
           // console.log(graph_id);
 
-            var row = "<tr><td  align='left'>"+tablecontent.data[i].district+"</td><td id =\'"+graph_id+"";
+            var row = "<tr><td align='left'>"+tablecontent.data[i].district+"</td><td align='center' id =\'"+graph_id+"";
                 var district_total_reported =0;
                 for (var j in tablecontent.data[i].reported){
                         district_total_reported = district_total_reported + parseInt(tablecontent.data[i].reported[j]);
@@ -919,11 +919,11 @@ $(function () {
                 row = row+"\'/><td>"+district_total_reported+"</td><td>"+district_total_registered+"</td><td >"+average+"</td><td id= \'"+i+"\'>"+"BarGraph"+"</td>";
                  if(i==0){
 
-                    row = row+"<td colspan='6' rowspan=2 style='font-size: 16px; font-weight: bold; padding: 0.5em;'>National % Aggregates</td>";
-                    console.log(i +""+row);
+                    row = row+"<td colspan='5' rowspan=2 style='font-size: 16px; font-weight: bold; padding: 0.5em;'>National % Aggregates</td>";
+                   
                     }
                    if(i == 2){
-                      row = row +" <th colspan='6' rowspan='27'><div id='barchart'><table><thead><tr><th>#</th><th>Category</th><th></th><th>Current month % of registration</th><th></th><th>Current year % of registration</th></tr></thead><tbody><tr><td>1</td><th>reported</th><td id='monthly_reported_percent'></td><td id='monthly_reported'></td><td id='annual_reported_percent'></td><td id='annual_reported'></td></tr><tr><td>2</td><th>Printed</th><td id='monthly_printed_percent'></td><td id='monthly_printed'></td><td id='annual_printed_percent'></td><td id='annual_printed'></td></tr><tr><td>3</td><th>Verified</th><td id='monthly_verified_percent'></td><td id='monthly_verified'></td><td id='annual_verified_percent'></td><td id='annual_verified'></td></tr><tr><td>4</td><th>Reprinted</th><td id='monthly_re_printed_percent'></td><td id='monthly_re_printed'></td><td id='annual_re_printed_percent'></td><td id='annual_re_printed'></td></tr> <tr><td>5</td><th>Incomplete</th><td id='monthly_incomplete_percent'></td><td id='monthly_incomplete'></td><td id='annual_incomplete_percent'></td><td id='annual_incomplete'></td></tr><tr><td>6</td><th>Suspected Duplicates</th><td id='monthly_supected_duplicates_percent'></td><td id='monthly_supected_duplicates'></td><td id='annual_supected_duplicates_percent'></td><td id='annual_supected_duplicates'></td></tr><tr><td>7</td><th>Amendement Requests</th><td id='monthly_amendement_percent'></td><td id='monthly_amendement'></td><td id='annual_amendement_percent'></td><td id='annual_amendement'></td></tr></tbody></table></div><div id='piechart'></div></th>";
+                      row = row +" <th colspan='6' rowspan='28' valign='top'><div id='barchart_right'><table><thead><tr><th>#</th><th>Category</th><th></th><th>Current month % of registration</th><th></th><th>Current year % of registration</th></tr></thead><tbody><tr><td>1</td><th>reported</th><td id='monthly_reported_percent'></td><td id='monthly_reported'></td><td id='annual_reported_percent'></td><td id='annual_reported'></td></tr><tr><td>2</td><th>Printed</th><td id='monthly_printed_percent'></td><td id='monthly_printed'></td><td id='annual_printed_percent'></td><td id='annual_printed'></td></tr><tr><td>3</td><th>Verified</th><td id='monthly_verified_percent'></td><td id='monthly_verified'></td><td id='annual_verified_percent'></td><td id='annual_verified'></td></tr><tr><td>4</td><th>Reprinted</th><td id='monthly_re_printed_percent'></td><td id='monthly_re_printed'></td><td id='annual_re_printed_percent'></td><td id='annual_re_printed'></td></tr> <tr><td>5</td><th>Incomplete</th><td id='monthly_incomplete_percent'></td><td id='monthly_incomplete'></td><td id='annual_incomplete_percent'></td><td id='annual_incomplete'></td></tr><tr><td>6</td><th>Suspected Duplicates</th><td id='monthly_supected_duplicates_percent'></td><td id='monthly_supected_duplicates'></td><td id='annual_supected_duplicates_percent'></td><td id='annual_supected_duplicates'></td></tr><tr><td>7</td><th>Amendement Requests</th><td id='monthly_amendement_percent'></td><td id='monthly_amendement'></td><td id='annual_amendement_percent'></td><td id='annual_amendement'></td></tr></tbody></table></div><div id='piechart'></div></th>";
                     }
 
                 //console.log(row);
@@ -1038,7 +1038,7 @@ function drawMiniGraph(id, reported, registed){
             spacingLeft: 0,
             spacingRight: 0,
             width: 200,
-            height:20 ,
+            height: 20 ,
             margin: [0, 0, 0, 0]
         },
         title: {
@@ -1234,13 +1234,13 @@ function drawMiniGraph(id, reported, registed){
                                     name: 'reported ',
                                     color: '#cfe7f5',
                                     data: [100],
-                                    pointPadding: -0.3
+                                    pointPadding: -0.09
                                 },
                                 {
                                     name: 'approve',
                                     color:'#729fcf',
                                     data : [registered],
-                                    pointPadding: 0.1
+                                    pointPadding: 0.25
                                 }  
                             ]
 
@@ -1329,21 +1329,14 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
 }
 $(document).ready(
     function(){
-        //$("#table-sparkline tbody td").css("height","2em");
-        console.log($("#main tr td:nth-child(1)"));
-        $("#main tr td:nth-child(1)").css("font-weight","bold");
-        $("#barchart th:even,td:even").css("width","7%");
-        $("#barchart th:nth-child(1),td:nth-child(1)").css("width","2%");
-        //$("#main tr td").css("width","5%");
-
-       /* //$("#left table th:nth-child(6), tr td:nth-child(6)").css("width","40%");
-       
-         $("#barchart th:odd,td:odd").css("width","15%");
-        $("#barchart th:nth-child(1),td:nth-child(1)").css("width","2%");
-        $("#barchart th:nth-child(2),td:nth-child(2)").css("width","20%");
-        $("#barchart table td").css("height","3em");
-        //$("#barchart th:nth-child(4),td:nth-child(4)").css("width","%");
-        //$("#barchart th:nth-child(6),td:nth-child(6)").css("width","10%");*/
+     
+        $("#main tr td:nth-child(1)").css({"font-weight":"bold", "font-size":"0.85em"});
+        $("#barchart th:even,td:even").css({"width":"7%"});
+        $("#barchart th:nth-child(1),td:nth-child(1)").css("width","7%");
+        $("#barchart th:nth-child(2),td:nth-child(2)").css({"width":"12%"});
+        $("#barchart th:nth-child(3),td:nth-child(3)").css({"text-align":"center"});
+        $("#barchart th:nth-child(4),td:nth-child(4)").css({"text-align":"center"});
+        $("#barchart th:nth-child(5),td:nth-child(5)").css({"text-align":"center"});
 
     }
 );
