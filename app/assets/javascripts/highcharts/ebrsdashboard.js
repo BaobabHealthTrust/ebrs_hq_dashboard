@@ -892,7 +892,7 @@ $(function () {
            var graph_id ="graph"+i;
           // console.log(graph_id);
 
-            var row = "<tr><td align='left'>"+tablecontent.data[i].district+"</td><td align='center' id =\'"+graph_id+"";
+            var row = "<tr><td align='left'>"+ "&nbsp;"+ "&nbsp;"+ tablecontent.data[i].district+"</td><td align='center' id =\'"+graph_id+"";
                 var district_total_reported =0;
                 for (var j in tablecontent.data[i].reported){
                         district_total_reported = district_total_reported + parseInt(tablecontent.data[i].reported[j]);

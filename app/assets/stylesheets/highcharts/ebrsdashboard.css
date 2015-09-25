@@ -8,7 +8,7 @@ th {
     white-space: nowrap;
 }
 td, th {
-    padding: 5px;
+    padding: 0.1em;
     border-bottom: 1.5px dotted #008FB2;
     white-space: nowrap;
 }
@@ -37,8 +37,6 @@ thead th {
 #main td{
 	font-size: 0.95em;
 	white-space: nowrap;
-	
-
 }
 #barchart{
 	/*background: #003D4C;*/
@@ -54,6 +52,7 @@ thead th {
 	margin-bottom: 0;
 	margin-bottom: 0;
 	white-space: nowrap;
+	padding: 0.1em;
 }
 #barchart thead{
 	font-size: 0.7em;
