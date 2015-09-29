@@ -1341,7 +1341,8 @@ $(document).ready(
         $("#barchart_right th td").css({"padding":"0em"});
 
         setInterval(function(){
-            $('body').fadeOut(5000,function(){
+            $('#fade').fadeOut('slow', function(){
+                $('#fade').fadeIn('slow');
                 location.reload();
             });
         },12000);

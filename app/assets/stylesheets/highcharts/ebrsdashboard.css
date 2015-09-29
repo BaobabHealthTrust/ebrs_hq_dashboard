@@ -47,7 +47,6 @@ body {
 #main td{
 	font-size: 0.95em;
 	white-space: nowrap;
-
 }
 #barchart{
 	/*background: #003D4C;*/
@@ -55,16 +54,12 @@ body {
 	margin-right:1%;
 	width: 42em;
 	white-space: nowrap;
-
-
-
 }
 #barchart table{
 	width: 98%;
 	margin-bottom: 0;
 	margin-bottom: 0;
 	white-space: nowrap;
-
 }
 #barchart thead{
 	font-size: 0.7em;
@@ -82,40 +77,32 @@ body {
 #barchart td  {
 		height: 3em;
 		white-space: nowrap;
-
 }
-
-
 #barchart_right{
 	/*background: #003D4C;*/
 	margin-top:1%;
 	margin-right:1%;
 	width: 42em;
 	white-space: nowrap;
-
-
 }
+
 #barchart_right table{
 	width: ;
 	margin-bottom: 0;
 	margin-bottom: 0;
 	white-space: nowrap;
-
 }
 #barchart_right thead{
 	font-size: 0.7em;
 	white-space: nowrap;
-
 }
 #barchart_right th{
 	vertical-align: top;
 	white-space: nowrap;
-
 }
 #barchart_right tbody{
 	font-size: 0.8em;
 	white-space: nowrap;
-
 }
 
 #barchart_right td  {
@@ -123,8 +110,6 @@ body {
 		width: 17%;
 		white-space: nowrap;
 }
-
-
 
 /** Styling pie chart*/
 #piechart{
@@ -136,4 +121,7 @@ body {
 	margin-top: 0.5em;
 	margin-left: 4em;
 	white-space: nowrap;
+}
+#fade{
+	width: auto;
 }
