@@ -27,6 +27,11 @@ thead th {
 	white-space: nowrap;
 
 }
+
+body {
+    overflow:hidden;
+}
+
 #main{
 	color: #004586;
 	width: 99%;

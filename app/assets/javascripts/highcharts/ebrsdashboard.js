@@ -1340,11 +1340,11 @@ $(document).ready(
         $("#barchart th td").css({"padding":"0em"});
         $("#barchart_right th td").css({"padding":"0em"});
 
-  /*      setInterval(function(){
+        setInterval(function(){
             $('body').fadeOut(5000,function(){
                 location.reload();
             });
-        },12000); */
+        },12000);
 
     }
 );
