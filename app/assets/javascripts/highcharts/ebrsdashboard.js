@@ -1,4 +1,4 @@
- /* 
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -919,16 +919,19 @@ $(function () {
                 row = row+"\'/><td>"+district_total_reported+"</td><td>"+district_total_registered+"</td><td >"+average+"</td><td id= \'"+i+"\'>"+"BarGraph"+"</td>";
                  if(i==0){
 
-                    row = row+"<td colspan='5' rowspan=2 style='font-size: 16px; font-weight: bold; padding: 0.5em;'>National % Aggregates</td>";
-                   
+                    row = row+"<td colspan='' rowspan=1 style='font-size: 16px; font-weight: bold; padding: 0em;'>National % Aggregates</td></tr>";
+
                     }
                    if(i == 2){
-                      row = row +" <th colspan='6' rowspan='28' valign='top'><div id='barchart_right'><table><thead><tr><th>#</th><th>Category</th><th></th><th>Current month % of registration</th><th></th><th>Current year % of registration</th></tr></thead><tbody><tr><td>1</td><th>reported</th><td id='monthly_reported_percent'></td><td id='monthly_reported'></td><td id='annual_reported_percent'></td><td id='annual_reported'></td></tr><tr><td>2</td><th>Printed</th><td id='monthly_printed_percent'></td><td id='monthly_printed'></td><td id='annual_printed_percent'></td><td id='annual_printed'></td></tr><tr><td>3</td><th>Verified</th><td id='monthly_verified_percent'></td><td id='monthly_verified'></td><td id='annual_verified_percent'></td><td id='annual_verified'></td></tr><tr><td>4</td><th>Reprinted</th><td id='monthly_re_printed_percent'></td><td id='monthly_re_printed'></td><td id='annual_re_printed_percent'></td><td id='annual_re_printed'></td></tr> <tr><td>5</td><th>Incomplete</th><td id='monthly_incomplete_percent'></td><td id='monthly_incomplete'></td><td id='annual_incomplete_percent'></td><td id='annual_incomplete'></td></tr><tr><td>6</td><th>Suspected Duplicates</th><td id='monthly_supected_duplicates_percent'></td><td id='monthly_supected_duplicates'></td><td id='annual_supected_duplicates_percent'></td><td id='annual_supected_duplicates'></td></tr><tr><td>7</td><th>Amendement Requests</th><td id='monthly_amendement_percent'></td><td id='monthly_amendement'></td><td id='annual_amendement_percent'></td><td id='annual_amendement'></td></tr></tbody></table></div><div id='piechart'></div></th>";
+                      row = row +" <th colspan='' rowspan='10' valign='top'><div id='barchart_right'><table><thead><tr><th>#</th><th>Category</th><th></th><th>Current month % of registration</th><th></th><th>Current year % of registration</th></tr></thead><tbody><tr><td>1</td><th>reported</th><td id='monthly_reported_percent'></td><td id='monthly_reported'></td><td id='annual_reported_percent'></td><td id='annual_reported'></td></tr><tr><td>2</td><th>Printed</th><td id='monthly_printed_percent'></td><td id='monthly_printed'></td><td id='annual_printed_percent'></td><td id='annual_printed'></td></tr><tr><td>3</td><th>Verified</th><td id='monthly_verified_percent'></td><td id='monthly_verified'></td><td id='annual_verified_percent'></td><td id='annual_verified'></td></tr><tr><td>4</td><th>Reprinted</th><td id='monthly_re_printed_percent'></td><td id='monthly_re_printed'></td><td id='annual_re_printed_percent'></td><td id='annual_re_printed'></td></tr> <tr><td>5</td><th>Incomplete</th><td id='monthly_incomplete_percent'></td><td id='monthly_incomplete'></td><td id='annual_incomplete_percent'></td><td id='annual_incomplete'></td></tr><tr><td>6</td><th>Suspected Duplicates</th><td id='monthly_supected_duplicates_percent'></td><td id='monthly_supected_duplicates'></td><td id='annual_supected_duplicates_percent'></td><td id='annual_supected_duplicates'></td></tr><tr><td>7</td><th>Amendement Requests</th><td id='monthly_amendement_percent'></td><td id='monthly_amendement'></td><td id='annual_amendement_percent'></td><td id='annual_amendement'></td></tr></tbody></table></div></th></tr>";
+                    }
+                    if(i == 13){
+                        row = row + "<th colspan='' rowspan='16' align='center' ><div id='piechart'></div></th>";
                     }
 
                 //console.log(row);
                 $("#main").append(row);
-               
+
                 ever_registered = ever_registered + district_total_registered;
 
                 //Summing aggregates
@@ -942,7 +945,7 @@ $(function () {
 
                 monthly_icomplete_aggregate = monthly_icomplete_aggregate + tablecontent.data[i].incomplete;
 
-                
+
                 monthly_supected_duplicates_aggregate = monthly_supected_duplicates_aggregate + tablecontent.data[i].supected_duplicates
 
                 monthly_amendement_request_aggregate = monthly_amendement_request_aggregate + tablecontent.data[i].amendement_request;
@@ -967,7 +970,7 @@ $(function () {
             aggregates("#annual_reported", monthly_reported_aggregate, monthly_reported_aggregate);
 
 
-            
+
             aggregates("#monthly_printed",monthly_printed_aggregate,monthly_reported_aggregate);
              aggregates("#annual_printed",monthly_printed_aggregate,monthly_reported_aggregate);
 
@@ -975,24 +978,24 @@ $(function () {
             aggregates("#monthly_verified",monthly_verified_aggregate,monthly_reported_aggregate);
             aggregates("#annual_verified",monthly_verified_aggregate,monthly_reported_aggregate);
 
-          
+
             aggregates("#monthly_re_printed",monthly_re_printed_aggregate,monthly_reported_aggregate);
             aggregates("#annual_re_printed",monthly_re_printed_aggregate,monthly_reported_aggregate);
 
 
-            
+
              aggregates("#monthly_incomplete",monthly_icomplete_aggregate,monthly_reported_aggregate);
              aggregates("#annual_incomplete",monthly_icomplete_aggregate,monthly_reported_aggregate);
 
-            
+
              aggregates("#monthly_supected_duplicates",monthly_supected_duplicates_aggregate,monthly_reported_aggregate);
               aggregates("#annual_supected_duplicates",monthly_supected_duplicates_aggregate,monthly_reported_aggregate);
 
 
-            
+
              aggregates("#monthly_amendement",monthly_amendement_request_aggregate,monthly_reported_aggregate);
              aggregates("#annual_amendement",monthly_amendement_request_aggregate,monthly_reported_aggregate);
-               
+
 
     //$("#barchart table td ").css({"height":"2em","min-width":"5em"});
     function aggregates(id, value, reported){
@@ -1038,8 +1041,7 @@ function drawMiniGraph(id, reported, registed){
             spacingLeft: 0,
             spacingRight: 0,
             width: 200,
-            height: 20 ,
-            margin: [0, 0, 0, 0]
+            height: 20
         },
         title: {
             text: '',
@@ -1092,15 +1094,10 @@ function drawMiniGraph(id, reported, registed){
         ,
         series: [{
             name: 'Reported',
-            
+
             color : '#729fcf',
             data: registed
-        }, {
-            name: 'reported',
-            color: '#5788a4'
-            ,
-            data: array
-        }]
+        } ]
     });
 
 }
@@ -1109,7 +1106,7 @@ function drawMiniGraph(id, reported, registed){
  //Pie Chart
  $(function () {
 
-    
+
 });
 
 //Bar Charts
@@ -1123,12 +1120,13 @@ function drawMiniGraph(id, reported, registed){
                 $(container).highcharts({
                     chart: {
                         type: 'bar',
-                        spacingBottom: 0.5,
-                        spacingTop: 0.5,
-                        spacingLeft: 0.5,
-                        spacingRight: 0.5,
+                        spacingBottom: 0,
+                        spacingTop: 0,
+                        spacingLeft: 0,
+                        spacingRight: 0,
+                        margin:[0,0,0,0],
                         width: null,
-                        height: null
+                        height: 20
                     },
                     title: {
                         text: ''
@@ -1166,7 +1164,8 @@ function drawMiniGraph(id, reported, registed){
                         name: 'reported',
                         colors: '#729fcf',
                         data: [percent],
-                        pointPadding: -2
+                        pointPadding: -3,
+
                     }]
                 });
             });
@@ -1186,7 +1185,7 @@ function drawMiniGraph(id, reported, registed){
                         spacingLeft: 0,
                         spacingRight: 0,
                         width: 170,
-                        height: null,
+                        height: 17,
                         margin: [0, 0, 0, 0]
 
                     },
@@ -1218,7 +1217,7 @@ function drawMiniGraph(id, reported, registed){
                                 enabled: false
                      }
                     ,
-                    
+
                     tooltip: {
                             enabled: false
                     },
@@ -1232,7 +1231,7 @@ function drawMiniGraph(id, reported, registed){
                     ,
                      series: [{
                                     name: 'reported ',
-                                    color: '#cfe7f5',
+                                    color: '#cfe7f8',
                                     data: [100],
                                     pointPadding: -0.09
                                 },
@@ -1241,7 +1240,7 @@ function drawMiniGraph(id, reported, registed){
                                     color:'#729fcf',
                                     data : [registered],
                                     pointPadding: 0.25
-                                }  
+                                }
                             ]
 
                 });
@@ -1254,12 +1253,12 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
 
             var total = ever_registered + ever_reported + ever_printed;
             ever_registered_percent = (ever_registered/total)*100;
-           
+
             ever_registered_percent = ever_registered_percent.toFixed(1);
 
             ever_printed_percent = (ever_printed/total) * 100;
             ever_printed_percent = ever_printed_percent.toFixed(1);
-          
+
             var ever_reported_percent = (100 - ever_registered_percent - ever_printed_percent).toFixed(1);
             // Make monochrome colors and set them as default for all pies
             Highcharts.getOptions().plotOptions.pie.colors = (function () {
@@ -1284,7 +1283,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total registered vs Total reported</font>',
+                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total reported; Total registered; Printed</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -1306,7 +1305,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     name: "People",
 
                     data: [
-                        
+
                         {
                             name: "Registered",
                             color:'#729fcf',
@@ -1314,7 +1313,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                         },
                         {
                             name: "Reported",
-                            color: '#cfe7f5', 
+                            color: '#cfe7f5',
                             y: parseFloat(ever_reported_percent)
                         },
                         {
@@ -1329,14 +1328,23 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
 }
 $(document).ready(
     function(){
-     
+
         $("#main tr td:nth-child(1)").css({"font-weight":"bold", "font-size":"0.85em"});
         $("#barchart th:even,td:even").css({"width":"7%"});
-        $("#barchart th:nth-child(1),td:nth-child(1)").css("width","7%");
+        $("#barchart th:nth-child(1),td:nth-child(1)").css({"width":"7%"});
         $("#barchart th:nth-child(2),td:nth-child(2)").css({"width":"12%"});
         $("#barchart th:nth-child(3),td:nth-child(3)").css({"text-align":"center"});
         $("#barchart th:nth-child(4),td:nth-child(4)").css({"text-align":"center"});
         $("#barchart th:nth-child(5),td:nth-child(5)").css({"text-align":"center"});
+        $("#main tr td").css({"padding":"0em"});
+        $("#barchart th td").css({"padding":"0em"});
+        $("#barchart_right th td").css({"padding":"0em"});
+
+  /*      setInterval(function(){
+            $('body').fadeOut(5000,function(){
+                location.reload();
+            });
+        },12000); */
 
     }
 );
