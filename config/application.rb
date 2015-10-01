@@ -8,6 +8,19 @@ require "action_view/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
+
+
+
+#def authenticate
+#  if APP_CONFIG['perform_authentication']
+#    authenticate_or_request_with_http_basic do |url, username, password|
+#      url == APP_CONFIG['url'] && username == APP_CONFIG['username'] && password == APP_CONFIG['password']
+#    end
+#  end
+#end
+
+
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)

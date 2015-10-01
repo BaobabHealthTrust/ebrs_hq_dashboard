@@ -886,6 +886,10 @@ $(function () {
 
         var average_sum = 0;
         var num_of_districts = 0;
+
+        //Total of a particular interval
+        var interval_total_array = [];
+
         for (var i in tablecontent.data){
 
 
@@ -919,7 +923,7 @@ $(function () {
                 row = row+"\'/><td>"+district_total_reported+"</td><td>"+district_total_registered+"</td><td >"+average+"</td><td id= \'"+i+"\'>"+"BarGraph"+"</td>";
                  if(i==0){
 
-                    row = row+"<td colspan='' rowspan=1 style='font-size: 16px; font-weight: bold; padding: 0em;'>National % Aggregates</td></tr>";
+                    row = row+"<td colspan='' rowspan=1 style='font-size: 16px; font-weight: bold; padding-left:1em;'><font style='margin-left:2em;'>National % Aggregates</font></td></tr>";
 
                     }
                    if(i == 2){
@@ -1338,14 +1342,17 @@ $(document).ready(
         $("#barchart th:nth-child(5),td:nth-child(5)").css({"text-align":"center"});
         $("#main tr td").css({"padding":"0em"});
         $("#barchart th td").css({"padding":"0em"});
+        $("#barchart th td").css({"padding":"0em"});
         $("#barchart_right th td").css({"padding":"0em"});
 
-        setInterval(function(){
+
+        setTimeout(function(){
             $('#fade').fadeOut('slow', function(){
+                console.log("Fade In");
                 $('#fade').fadeIn('slow');
-                location.reload();
+                $(location).attr("href", "/dashboard/map_dashboard");
             });
-        },12000);
+        },3000);
 
     }
 );

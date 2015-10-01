@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'dashboard#index'
 
+  get 'dashboard/map_dashboard'
+  post 'dashboard/map_dashboard'
+
+  get 'dashboard/index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

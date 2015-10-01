@@ -1,0 +1,6 @@
+  user:     icingaadmin
+  password: nrbadmin
+  host:     192.168.48.132
+  scaling_factor: 0.6
+  scroll: 399
+  url:      /cgi-bin/icinga/statusmap.cgi?host=all?

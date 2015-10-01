@@ -1,16 +1,19 @@
 h4{
-	padding: 0em;
+
 	color: #006680;
 	white-space: nowrap;
 }
 th {
-		padding: 0.1em;
+
     font-weight: bold;
     text-align: left;
     white-space: nowrap;
 }
 td, th {
-    padding: 0.4em;
+    padding-left: 0.6em;
+		padding-right: 0.5em;
+		padding-top: 0;
+		padding-bottom: 0;
     border-bottom: 1.5px dotted #008FB2;
     white-space: nowrap;
 }
@@ -122,6 +125,10 @@ body {
 	margin-left: 4em;
 	white-space: nowrap;
 }
-#fade{
-	width: auto;
+#frame{
+	min-height: 50em;
+	border: 0;
+	overflow: hidden;
+	scolling: "no";
+
 }
