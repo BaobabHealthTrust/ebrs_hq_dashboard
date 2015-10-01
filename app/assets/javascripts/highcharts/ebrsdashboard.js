@@ -1359,7 +1359,7 @@ $(document).ready(
                 $('#fade').fadeIn('slow');
                 $(location).attr("href", "/dashboard/map_dashboard");
             });
-        },10000);
+        },3000);
 
     }
 );
