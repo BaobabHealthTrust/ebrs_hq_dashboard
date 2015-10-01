@@ -888,7 +888,7 @@ $(function () {
         var num_of_districts = 0;
 
         //Total of a particular interval
-        var interval_total_array = [];
+        var interval_total_array = new Array();
 
         for (var i in tablecontent.data){
 
@@ -906,6 +906,13 @@ $(function () {
 
                 var district_total_registered =0;
                 for (var j in tablecontent.data[i].registered){
+
+                        if(interval_total_array [j]==undefined){
+                            interval_total_array[j] = 0 + parseInt(tablecontent.data[i].registered[j]);
+                        }
+                        else{
+                            interval_total_array[j] = interval_total_array[j] + parseInt(tablecontent.data[i].registered[j]);
+                        }
                         district_total_registered = district_total_registered + parseInt(tablecontent.data[i].registered[j]);
 
                         //row = row + tablecontent.data[i].reported[j] +",  ";
@@ -963,10 +970,10 @@ $(function () {
 
         }
 
-            var totals = "  <tr><th align='left'>Total</th><td>&nbsp;</td><td>"+ monthly_reported_aggregate +"</td><td>"+ever_registered+"</td><td>"+(average_sum/num_of_districts).toFixed(2)+"</td><td id='total'></td></tr>";
+            var totals = "  <tr><th align='left'>Total</th><td id ='total'></td><td>"+ monthly_reported_aggregate +"</td><td>"+ever_registered+"</td><td>"+(average_sum/num_of_districts).toFixed(2)+"</td><td id='total'></td></tr>";
             //console.log("average_sum"+average_sum+" "+num_of_districts);
             $("#main").append(totals);
-
+            drawMiniGraph("total", null, tablecontent.data[i].reported);
             drawbarchartforapproval("total",(ever_registered/monthly_reported_aggregate)*100);
 
             //Drawing Bar Charts
@@ -1352,7 +1359,7 @@ $(document).ready(
                 $('#fade').fadeIn('slow');
                 $(location).attr("href", "/dashboard/map_dashboard");
             });
-        },3000);
+        },10000);
 
     }
 );
