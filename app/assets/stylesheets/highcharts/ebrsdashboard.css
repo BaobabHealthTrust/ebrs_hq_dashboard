@@ -125,7 +125,7 @@ body {
 	white-space: nowrap;
 }
 #frame{
-	min-height: 50em;
+	min-height: 80em;
 	border: 0;
 	overflow: hidden;
 	scolling: "no";
