@@ -1,0 +1,850 @@
+[
+                                    {
+                                        "district":"Balaka",
+                                        "reported":[80,50, 60,40,79],
+                                        "registered":[10,30, 13,30,10],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                        {
+                                        "district":"Blantyre",
+                                        "reported":[80,90, 60,23,79],
+                                        "registered":[70,80, 50,23,60],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                        {
+                                        "district":"Chikwawa",
+                                        "reported":[80,50, 60,23,79],
+                                        "registered":[75,45, 60,10,79],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Chiradzulu",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+
+                                      {
+                                        "district":"Chipita",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+
+                                      {
+                                        "district":"Dedza",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+                                    {
+                                        "district":"Dowa",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    }
+                                    ,
+                                     {
+                                        "district":"Karonga",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Kasungu",
+                                        "reported":[80,50, 60,40,79],
+                                        "registered":[10,30, 13,30,10],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                        {
+                                        "district":"Likoma",
+                                        "reported":[80,90, 60,23,79],
+                                        "registered":[70,80, 50,23,60],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                        {
+                                        "district":"Lilongwe",
+                                        "reported":[80,50, 60,23,79],
+                                        "registered":[75,45, 60,10,79],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Machinga",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+
+                                      {
+                                        "district":"Mangochi",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+
+                                      {
+                                        "district":"Mchinji",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+                                    {
+                                        "district":"Mulanje",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    }
+                                    ,
+                                     {
+                                        "district":"Mwanza",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    },{
+                                        "district":"Mzimba",
+                                        "reported":[80,50, 60,40,79],
+                                        "registered":[10,30, 13,30,10],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                        {
+                                        "district":"Neno",
+                                        "reported":[80,90, 60,23,79],
+                                        "registered":[70,80, 50,23,60],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                        {
+                                        "district":"Nkhata Bay",
+                                        "reported":[80,50, 60,23,79],
+                                        "registered":[75,45, 60,10,79],
+                                        "printed":250,
+                                        "verified":230,
+                                        "re_printed":220,
+                                        "incomplete":150,
+                                        "supected_duplicates":20,
+                                        "amendement_request":10,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:29:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Nkhotakota",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+
+                                      {
+                                        "district":"Nsanje",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+
+                                      {
+                                        "district":"Ntcheu",
+                                        "reported":[20,40, 90,30,50],
+                                        "registered":[20,25, 90,30,30],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                [
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:15:24",
+                                                        "register_time":"Wed Mar 25 2015 10:22:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 10:20:24",
+                                                        "register_time":"Wed Mar 25 2015 10:29:15"
+                                                    },
+                                                    {
+                                                        "report_time":"Wed Mar 25 2015 09:56:24",
+                                                        "register_time":"Wed Mar 25 2015 10:20:15"
+                                                    }
+                                                ]
+                                    },
+                                    {
+                                        "district":"Ntchisi",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    }
+                                    ,
+                                     {
+                                        "district":"Phalombe",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Rumphi",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Salima",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Thyolo",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    },
+                                    {
+                                        "district":"Zomba",
+                                        "reported":[53,78, 20,100,43],
+                                        "registered":[53,50, 20,100,43],
+                                        "printed":130,
+                                        "verified":120,
+                                        "re_printed":100,
+                                        "incomplete":80,
+                                        "supected_duplicates":15,
+                                        "amendement_request":8,
+                                        "duration":
+                                                    [
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:20:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:15:24",
+                                                            "register_time":"Wed Mar 25 2015 10:22:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 10:20:24",
+                                                            "register_time":"Wed Mar 25 2015 10:25:15"
+                                                        },
+                                                        {
+                                                            "report_time":"Wed Mar 25 2015 09:56:24",
+                                                            "register_time":"Wed Mar 25 2015 10:12:15"
+                                                        }
+                                                    ]
+                                    }
+]

@@ -2,45 +2,117 @@
 <html>
 <head>
 	<title>eBRS Dashboard</title>
-	<script src="/assets/highcharts/jquery-2.1.1.js"></script>
-	<script src="/assets/highcharts/highcharts.js"></script>
-	<script src="/assets/highcharts/ebrsdashboard.js"></script>
-	<%#= javascript_include_tag 'ebrsdashboard' %>
-	<style type="text/css">
+	
+	<style>
+            body {
+                overflow: hidden;
+                margin: 10px;
+            }
+        </style>
 
-	</style>
+</head>
+<body onresize="resize()" onload="resize()" style="overflow:hidden;">
+<div id="main">
 
-	</head>
-<body id="fade">
-	<table id="main" width="100%" style="" border=0 cellspacing="0" style="white-space: nowrap">
+<table id="table" style="width: 100%; border-collapse: collapse;" border="0" cellpadding=4>
 	<tr>
-		<td style="border-bottom: 1px solid #004586;;" >
-			&nbsp;
-		</td>
-		<td style="border-bottom: 1px solid #004586;; font-size: 1em; font-weight: bold;" align="center">
-			registrations jul 15 - aug 15
-		</td>
-		<td style="border-bottom: 1px solid #004586;; font-size: 1em; font-weight: bold;" >
-			reported
-		</td>
-		<td style="border-bottom: 1px solid #004586;; font-size: 1em; font-weight: bold;">
-			registered
-		</td>
-		<td style="border-bottom: 1px solid #004586; font-size: 1em; font-weight: bold;">
-			Avg Time
-		</td>
-		<td colspan="" style="border-bottom: 1px solid #004586; font-size: 1em;"> <span style="width:0.7em;height:0.7em; margin-right:0.5em;display:inline-block;background:#cfe7f5"></span><font size=1>reported</font> <span style="width:0.7em;height:0.7em;margin-left:0.7em;margin-right:0.5em;display:inline-block;background:#729fcf"></span><font size =1 >registered</font><br>
-		<b> year to date % registered </b>
-		</td>
-
-		<td colspan="" style="font-size: 18px; text-align: right; border-bottom: 1px solid #004586;">
-			eBRS National Statistics <img style="width:1.5em;hieght:1.5em;" src="/assets/logo.png">
-		</td>
+		<th width="10%">&nbsp;</th>
+		<th width="17%"> registrations jul 15 - aug 15</th>
+		<th width="5%"> reported </th>
+		<th width="5%"> registered </th>
+		<th width="5%"> Avg Time </th>
+		<th width="15%"> year to date % registered  </th>
+		<th colspan="4" width="43%"><h4 class="pull-right">eBRS National Statistics<span><img style="width:1.5em;hieght:1.5em;" src="/assets/logo.png"></span></h4></th>
 	</tr>
 
+	<tr>
+		<td colspan="6" valign="top">
+		<div id="scroll" style="width: 100%; height: 800px; overflow: hidden;">
+			<table id="left_sroll" style="width: 100%; border-collapse: collapse;" border="0" cellpadding="10">
+			<tbody id="left_body"></tbody>
+				
+			</table>
+			</div>
+		</td>
+		
+		<td colspan="4" valign="top" width="43%">
+
+			National % Aggregates
+			<div id= "right">
+				<table width="100%" border="0" cellpadding="0">
+					<thead>
+						<tr><th width="5%">#</th><th width="21%">Category</th><th width="17%"></th><th width="20%">Current month % of registration</th><th width="17%"></th><th width="20%">Current year % of registration</th></tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td><th>reported</th>
+							<td id="monthly_reported_percent"></td>
+							<td id="monthly_reported"></td>
+							<td id="annual_reported_percent"></td>
+							<td id="annual_reported"></td>
+						</tr>
+						<tr>
+							<td>2</td><th>Printed</th>
+							<td id="monthly_printed_percent"></td>
+							<td id="monthly_printed"></td>
+							<td id="annual_printed_percent"></td>
+							<td id="annual_printed"></td>
+						</tr>
+						<tr>
+							<td>3</td><th>Verified</th>
+							<td id="monthly_verified_percent"></td>
+							<td id="monthly_verified"></td>
+							<td id="annual_verified_percent"></td>
+							<td id="annual_verified"></td>
+						</tr>
+						<tr>
+							<td>4</td><th>Reprinted</th>
+							<td id="monthly_re_printed_percent"></td>
+							<td id="monthly_re_printed"></td>
+							<td id="annual_re_printed_percent"></td>
+							<td id="annual_re_printed"></td>
+						</tr> 
+						<tr><td>5</td><th>Incomplete</th>
+							<td id="monthly_incomplete_percent"></td>
+							<td id="monthly_incomplete"></td>
+							<td id="annual_incomplete_percent"></td>
+							<td id="annual_incomplete"></td>
+						</tr>
+						<tr>
+							<td>6</td><th>Suspected Duplicates</th>
+							<td id="monthly_supected_duplicates_percent"></td>
+							<td id="monthly_supected_duplicates"></td>
+							<td id="annual_supected_duplicates_percent"></td>
+							<td id="annual_supected_duplicates"></td>
+						</tr>
+						<tr>
+							<td>7</td><th>Amendement Requests</th>
+							<td id="monthly_amendement_percent"></td>
+							<td id="monthly_amendement"></td>
+							<td id="annual_amendement_percent"></td>
+							<td id="annual_amendement"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id= "piechart"></div> 
+		</td>
+	</tr>
+	<tr style="font-size:120%;">
+		<th width="10%" >Total</th>
+		<th width="17%"> &nbsp;</th>
+		<th width="5%" id="reported"> reported </th>
+		<th width="5%" id ="registered"> registered </th>
+		<th width="6%"> Avg Time </th>
+		<th width="17%"> &nbsp;  </th>
+		<th colspan="4" width="40%">
+	</tr>
 </table>
+</div>
+
+<script src="/assets/highcharts/jquery-2.1.1.js"></script>
+<script src="/assets/highcharts/highcharts.js"></script>
+<script src="/assets/highcharts/ebrsdashboard.js"></script>
+
 </body>
-
-
-
 </html>

@@ -6,7 +6,7 @@
 
 </iframe>
 <script type="text/javascript">
-
+document.getElementById("frame").style.height= (window.innerHeight) + "px";
 $(document).ready(
     function(){
 
@@ -16,7 +16,8 @@ $(document).ready(
                   console.log("Fade In");
                 $(location).attr("href", "/dashboard/index");
             });
-        },3000);
+        },10000);
+
 
     }
 );
