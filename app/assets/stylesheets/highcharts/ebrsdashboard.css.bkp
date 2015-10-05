@@ -90,10 +90,7 @@ body {
 }
 
 #barchart_right table{
-<<<<<<< HEAD
-	
-=======
->>>>>>> c07c860cbe9e3a34aec5d2235a29d79b0e866661
+
 	margin-bottom: 0;
 	margin-bottom: 0;
 	white-space: nowrap;

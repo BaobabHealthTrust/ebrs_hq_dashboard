@@ -36,8 +36,8 @@ function __$(id) {
 function resize() {
 
     if (__$("main")) {
-        __$("scroll").style.height = (window.innerHeight - 90) + "px";    
-        __$("main").style.height = (window.innerHeight - 20) + "px";
+        __$("scroll").style.height = (window.innerHeight - 80) + "px";    
+        __$("main").style.height = (window.innerHeight - 0) + "px";
 
     }
 
@@ -50,7 +50,7 @@ function drawMiniGraph(id, reported, registered){
             spacingTop: 0,
             spacingLeft: 0,
             spacingRight: 0,
-            width: 200,
+            width: 150,
             height: 45
         },
         title: {
@@ -114,8 +114,6 @@ function drawMiniGraph(id, reported, registered){
 
 function drawReportToRegisterChart(id,registered,reported){
 
-    console.log(id+" "+registered +" "+ reported);
-
         $(function () {
                 var percent_registered = (registered/reported) * 100;
                 $(id).highcharts({
@@ -126,7 +124,7 @@ function drawReportToRegisterChart(id,registered,reported){
                         spacingTop: 0,
                         spacingLeft: 0,
                         spacingRight: 0,
-                        width: 170,
+                        width: 150,
                         height: 45,
                         margin: [0, 0, 0, 0]
 
@@ -304,9 +302,7 @@ function drawRightChart(monthly,yearly){
  function aggregates(id, value, reported){
         var percent = (value/reported) *100;
         var perId = id+"_percent";
-        //console.log(perId);
         html = value + " ("+ parseInt(percent)+"%)";
-       // console.log("Bar"+html);
         $(perId).html(html);
         drawbarchart(id,percent);
     }
@@ -390,7 +386,7 @@ function array_sum(array){
     }
     return sum;
 }
-function getData(control, url) {
+function getData(control, url,call) {
 
     if (!control && !url) {
 
@@ -414,7 +410,15 @@ function getData(control, url) {
 
                 var result = xmlhttp.responseText;
                 
-                loadData(control, result);
+                if(call ==1){
+                    loadData(control, result);
+                }
+                else if(call==2){
+                    loadRightChart(control,result);
+                }
+                else{
+                    loadPieChart(control,result);
+                }
 
             }
             else if (xmlhttp.status == 400) {
@@ -452,7 +456,7 @@ function loadData(control, data) {
           var tr = document.createElement("tr");
           
 
-          var row = "<td width='16.666666667%' >"+tablecontent[i].district+"</td><td width='25%' id =graph"+i+">Graph</td><td width='10%' id=reported"+i+" align = 'center'></td><td width='10%' id=registered"+i+" align = 'center'></td><td width='10%' id=time"+i+" align = 'center'>15min</td><td width='28.333333333%' id="+i+">Bar</td>";
+          var row = "<td width='18.18%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='27.27%' id =graph"+i+" >Graph</td><td width='9.091%' id=reported"+i+" align='center'></td><td width='9.099%' id=registered"+i+" align='center'></td><td width='9.091%' id=time"+i+" align='right'>15min</td><td width='27.27' id="+i+" align = 'center'>Bar</td>";
           tr.innerHTML = row;
           control.appendChild(tr);
 
@@ -474,6 +478,8 @@ function loadData(control, data) {
         var average_sum = 0;
         var num_of_districts = 0;
 
+
+
         for(var i in tablecontent){
             
 
@@ -489,32 +495,25 @@ function loadData(control, data) {
             //Average time to register and Average Sum
             var average = average_interval(tablecontent[i].duration);
             __$("time"+i).innerHTML=average;
+            var average = average_interval(tablecontent[i].duration);
             average_sum = average_sum + average;
             num_of_districts = parseInt(i) + 1;
             
            
             
         }
+
+        __$("avg_time").innerHTML = (average_sum/num_of_districts).toFixed(2);
         for (var i in tablecontent){
             drawMiniGraph("#graph"+i, null, tablecontent[i].reported);
           
             drawReportToRegisterChart("#"+i,array_sum(tablecontent[i].registered),array_sum(tablecontent[i].reported));
         }
-
-        var agg = new Aggregate (tablecontent);
-        agg.setAggregates();
-        __$("reported").innerHTML = agg.reported_aggregate;
-        __$("registered").innerHTML = agg.registered_aggregate;
-        drawRightChart(agg,agg);
-
-        drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
-
-
-
+        
 
 }
 
-var step = 1;
+var step = 2;
 
 setInterval(function() {
 
@@ -524,7 +523,7 @@ setInterval(function() {
 
             position += step;
 
-            if((position * 3.5) > __$("scroll").scrollHeight) {
+            if((position * 1.9) > __$("scroll").scrollHeight) {
 
                 direction = 0;
 
@@ -532,17 +531,19 @@ setInterval(function() {
 
         } else if(direction == 0) {
 
-            position -= step;
+            setTimeout(function(){
+            $(location).attr("href", "/dashboard/map_dashboard");
+            },2000);
+
+            /*position -= step;
 
             if(position < 0) {
 
                 direction = 1;
 
-            }
+            }*/
 
         }
-
-        //console.log(position + " : " + __$("scroll").scrollHeight);
 
         __$("scroll").scrollTop = position;
 
@@ -552,17 +553,58 @@ setInterval(function() {
 
 if (__$("left_body")) {
 
-    getData(__$("left_body"), "/assets/data.json");
+    getData(__$("left_body"), "/assets/data.json",1);
 
 }
 
+function loadRightChart(control,data){
+    if (!control && !data) {
+
+        return;
+
+    }
+   
+
+    var tablecontent = JSON.parse(data);
+
+        var agg = new Aggregate (tablecontent);
+        agg.setAggregates();
+        __$("reported").innerHTML = agg.reported_aggregate;
+        __$("registered").innerHTML = agg.registered_aggregate;
+        drawRightChart(agg,agg);
+
+        drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
+}
+
+
+
+function loadPieChart(control,data){
+
+    var tablecontent = JSON.parse(data);
+
+        var agg = new Aggregate (tablecontent);
+        agg.setAggregates();
+        drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
+
+}
+
+function average_interval (duration){
+        var total_interval =0;
+
+        for (var i in duration) {
+            var report = new Date(duration[i].report_time).getTime();
+            var register = new Date(duration[i].register_time).getTime();
+            total_interval = total_interval + (register - report);
+        };
+
+        return total_interval/(duration.length * 1000 * 60);
+}
 /* Highchart Functions*/
 $(document).ready(
     function(){
-
-        setTimeout(function(){
-            $(location).attr("href", "/dashboard/map_dashboard");
-        },10000);
+        getData(__$("left_body"), "/assets/data.json",2);
+        getData(__$("left_body"), "/assets/data.json",3);
+        
 
     }
 );
