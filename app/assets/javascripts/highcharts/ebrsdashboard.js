@@ -222,7 +222,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total reported; Total registered; Printed</font>',
+                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total reported, Total registered, Printed</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -514,34 +514,38 @@ function loadData(control, data) {
 }
 
 var step = 2;
-
+var cycle = 1;
 setInterval(function() {
 
     if(__$("scroll")) {
 
         if(direction == 1) {
+            if(cycle==2){
 
+                    $(location).attr("href", "/dashboard/map_dashboard");
+
+            }
             position += step;
 
-            if((position * 1.9) > __$("scroll").scrollHeight) {
+            if((position * 1.7) > __$("scroll").scrollHeight) {
 
                 direction = 0;
+                cycle = 1;
 
             }
 
         } else if(direction == 0) {
 
-            setTimeout(function(){
-            $(location).attr("href", "/dashboard/map_dashboard");
-            },2000);
+            
 
-            /*position -= step;
+            position -= step;
 
             if(position < 0) {
 
                 direction = 1;
+                cycle = 2
 
-            }*/
+            }
 
         }
 
