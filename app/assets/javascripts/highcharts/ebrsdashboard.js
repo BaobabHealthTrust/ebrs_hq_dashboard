@@ -222,7 +222,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total reported, Total registered, Printed</font>',
+                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total Reported, Total Registered, Printed</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
