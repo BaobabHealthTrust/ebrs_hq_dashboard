@@ -522,7 +522,7 @@ setInterval(function() {
         if(direction == 1) {
             if(cycle==2){
 
-                    $(location).attr("href", "/dashboard/map_dashboard");
+                    //$(location).attr("href", "/dashboard/map_dashboard");
 
             }
             position += step;
@@ -557,7 +557,7 @@ setInterval(function() {
 
 if (__$("left_body")) {
 
-    getData(__$("left_body"), "/assets/data.json",1);
+    getData(__$("left_body"), "/dashboard/get_records",1);
 
 }
 
