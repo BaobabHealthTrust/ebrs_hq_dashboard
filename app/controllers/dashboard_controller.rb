@@ -29,13 +29,19 @@ class DashboardController < ApplicationController
 
   def get_records
     results = []
-    data = CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
+    end_date = Date.today
+    start_date = end_date - 1.month
+    type = "week"
+
+    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00")).endkey(end_date.strftime("%Y-%m-%d 23:59:59"))
+
+    CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
       site_code = row[0]
       district = row[1]
 
         results << {
             "district" => district,
-            "reported" => [80,50, 60,40,79],
+            "reported" => breakdown(type, site_code, data),
             "registered" => [10,30, 13,30,10],
             "printed" => 250,
             "verified" => 230,
@@ -72,4 +78,9 @@ class DashboardController < ApplicationController
       @url = "http://#{MAP_CONFIG['user']}:#{MAP_CONFIG['password']}@#{MAP_CONFIG['host']}#{MAP_CONFIG['url']}scaling_factor=#{MAP_CONFIG['scaling_factor']}&scroll=#{MAP_CONFIG['scroll']}"
   end
 
+  private
+
+  def breakdown(type, district_code, data)
+    
+  end
 end
