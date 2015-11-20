@@ -493,7 +493,7 @@ function loadData(control, data) {
              __$("registered"+i).innerHTML=district_total_registered;
 
             //Average time to register and Average Sum
-            var average = average_interval(tablecontent[i].duration);
+            var average = tablecontent[i].duration;
             __$("time"+i).innerHTML=average;
             var average = average_interval(tablecontent[i].duration);
             average_sum = average_sum + average;
@@ -521,7 +521,7 @@ setInterval(function() {
 
         if(direction == 1) {
             if(cycle==2){
-
+                     location.reload(true);
                     //$(location).attr("href", "/dashboard/map_dashboard");
 
             }

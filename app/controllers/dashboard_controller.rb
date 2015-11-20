@@ -31,7 +31,7 @@ class DashboardController < ApplicationController
     results = []
     end_date = Date.today
     start_date = end_date - 1.month
-    type = "week"
+    type = "weekly"
 
     data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00")).endkey(end_date.strftime("%Y-%m-%d 23:59:59"))
 
@@ -39,35 +39,23 @@ class DashboardController < ApplicationController
       site_code = row[0]
       district = row[1]
 
+        dt = breakdown(type, site_code, start_date, end_date, data)
+        reported = dt.collect{|a, b, c| a}
+        registered = dt.collect{|a, b, c| b}
+        duration = dt.collect{|a, b, c| c}
+        average = duration.sum/registered.sum rescue 0
+
         results << {
             "district" => district,
-            "reported" => breakdown(type, site_code, data),
-            "registered" => [10,30, 13,30,10],
+            "reported" => reported,
+            "registered" => registered,
             "printed" => 250,
             "verified" => 230,
             "re_printed" => 220,
             "incomplete" => 150,
             "supected_duplicates" => 20,
             "amendement_request" => 10,
-            "duration"=>
-            [
-              {
-                  "report_time"=>"Wed Mar 25 2015 09:56:24",
-                  "register_time"=>"Wed Mar 25 2015 10:20:15"
-              },
-                  {
-                  "report_time"=>"Wed Mar 25 2015 10:15:24",
-                  "register_time"=>"Wed Mar 25 2015 10:22:15"
-              },
-                  {
-                  "report_time"=>"Wed Mar 25 2015 10:20:24",
-                  "register_time"=>"Wed Mar 25 2015 10:29:15"
-              },
-                  {
-                  "report_time"=>"Wed Mar 25 2015 09:56:24",
-                  "register_time"=>"Wed Mar 25 2015 10:20:15"
-              }
-          ]
+            "duration"=> average
           }
     end
 
@@ -80,7 +68,36 @@ class DashboardController < ApplicationController
 
   private
 
-  def breakdown(type, district_code, data)
-    
+  def breakdown(type, district_code, start_date, end_date,  data)
+    result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0]]
+    (data || []).each do |d|
+      next unless d.site_code.upcase.strip == district_code.upcase.strip
+      case type
+        when "weekly"
+          if(d.date_doc_created >= start_date and (d.date_doc_created) <= (start_date + 1.week))
+            result[0][0] += 1
+            result[0][1] += 1 unless d.date_doc_approved.blank?
+            result[0][2] += ((d.date_doc_approved - d.date_doc_created)/60).round unless d.date_doc_approved.blank?
+          elsif(d.date_doc_created > start_date + 1.week and (d.date_doc_created) <= (start_date + 2.weeks))
+            result[1][0] += 1
+            result[1][1] += 1 unless d.date_doc_approved.blank?
+            result[1][2] += ((d.date_doc_approved - d.date_doc_created)/60).round unless d.date_doc_approved.blank?
+          elsif(d.date_doc_created > start_date + 2.week and (d.date_doc_created) <= (start_date + 3.weeks))
+            result[2][0] += 1
+            result[2][1] += 1 unless d.date_doc_approved.blank?
+            result[2][2] += ((d.date_doc_approved - d.date_doc_created)/60).round unless d.date_doc_approved.blank?
+          elsif(d.date_doc_created > start_date + 3.weeks and (d.date_doc_created) <= (start_date + 4.weeks))
+            result[3][0] += 1
+            result[3][1] += 1 unless d.date_doc_approved.blank?
+            result[3][2] += ((d.date_doc_approved - d.date_doc_created)/60).round unless d.date_doc_approved.blank?
+          elsif(d.date_doc_created > start_date + 4.weeks and (d.date_doc_created) <= end_date)
+            result[4][0] += 1
+            result[4][1] += 1 unless d.date_doc_approved.blank?
+            result[4][2] += ((d.date_doc_approved - d.date_doc_created)/60).round unless d.date_doc_approved.blank?
+          end
+      end
+    end
+
+    return result
   end
 end
