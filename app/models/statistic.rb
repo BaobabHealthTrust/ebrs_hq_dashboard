@@ -7,8 +7,6 @@ class Statistic < CouchRest::Model::Base
   property :site_code, String
   property :date_doc_created, Time
   property :date_doc_approved, Time
-  property :created_at, Time
-  property :updated_at, Time
   timestamps!
 
   design do
