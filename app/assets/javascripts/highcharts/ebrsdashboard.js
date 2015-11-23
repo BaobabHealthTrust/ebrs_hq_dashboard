@@ -449,8 +449,11 @@ function loadData(control, data) {
 
     var tablecontent = JSON.parse(data);
 
-     
-
+    __$("registered").innerHTML = tablecontent['total_approved'];
+    __$("reported").innerHTML = tablecontent['total_registered'];
+    __$("avg_time").innerHTML = tablecontent['total_duration'];
+    __$("reg_date").innerHTML = tablecontent['reg_date'];
+    tablecontent = tablecontent['results'];
 
      for (var i in tablecontent){
           var tr = document.createElement("tr");
@@ -495,7 +498,6 @@ function loadData(control, data) {
             //Average time to register and Average Sum
             var average = tablecontent[i].duration;
             __$("time"+i).innerHTML=average;
-            var average = average_interval(tablecontent[i].duration);
             average_sum = average_sum + average;
             num_of_districts = parseInt(i) + 1;
             
@@ -503,7 +505,7 @@ function loadData(control, data) {
             
         }
 
-        __$("avg_time").innerHTML = (average_sum/num_of_districts).toFixed(2);
+        //__$("avg_time").innerHTML = (average_sum/num_of_districts).toFixed(2);
         for (var i in tablecontent){
             drawMiniGraph("#graph"+i, null, tablecontent[i].reported);
           
@@ -573,8 +575,8 @@ function loadRightChart(control,data){
 
         var agg = new Aggregate (tablecontent);
         agg.setAggregates();
-        __$("reported").innerHTML = agg.reported_aggregate;
-        __$("registered").innerHTML = agg.registered_aggregate;
+        //__$("reported").innerHTML = agg.reported_aggregate;
+       // __$("registered").innerHTML = agg.registered_aggregate;
         drawRightChart(agg,agg);
 
         drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
