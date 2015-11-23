@@ -1,27 +1,21 @@
 require 'couchrest_model'
 class HQStatistic < CouchRest::Model::Base
 
-  use_database "hq_dashboard"
+  use_database "stats_cumulative"
 
-  property :date_doc_created, Time
-  property :reported, Interger
-  property :printed, Interger
-  property :verified, Interger
-  property :reprinted, Interger
-  property :incomplete, Interger
-  property :suspectd_duplicates, Interger
-  property :amendements_requests, Interger
+  property :district_code, String
+  property :reported, Integer, :default => 0
+  property :printed, Integer, :default => 0
+  property :verified, Integer, :default => 0
+  property :reprinted, Integer, :default => 0
+  property :incomplete, Integer, :default => 0
+  property :suspectd_duplicates, Integer, :default => 0
+  property :amendements_requests, Integer, :default => 0
   timestamps!
 
   design do
     view :by__id
-    view :by_reported
-    view :by_printed
-    view :by_verified
-    view :by_reprinted
-    view :by_incomplete
-    view :by_suspectd_duplicates
-    view :by_amendements_requests
+    view :by_district_code
   end
 end
 
