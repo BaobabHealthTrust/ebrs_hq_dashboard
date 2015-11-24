@@ -7,7 +7,6 @@ class HQStatistic < CouchRest::Model::Base
   property :reported_date, Date
   property :reported, Integer, :default => 0
   property :printed, Integer, :default => 0
-  property :verified, Integer, :default => 0
   property :reprinted, Integer, :default => 0
   property :incomplete, Integer, :default => 0
   property :suspectd_duplicates, Integer, :default => 0
