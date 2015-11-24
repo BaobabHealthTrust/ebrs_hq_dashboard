@@ -1,10 +1,9 @@
 require 'couchrest_model'
-class HQStatistic < CouchRest::Model::Base
+class StatisticCumulative < CouchRest::Model::Base
 
-  use_database "daily_stats"
+  use_database "stats_cumulative"
 
   property :district_code, String
-  property :reported_date, Date
   property :reported, Integer, :default => 0
   property :printed, Integer, :default => 0
   property :verified, Integer, :default => 0
@@ -17,8 +16,6 @@ class HQStatistic < CouchRest::Model::Base
   design do
     view :by__id
     view :by_district_code
-    view :by_reported_date
-    view :by_district_code_and_reported_date
   end
 end
 
