@@ -1,6 +1,7 @@
 require 'couchrest_model'
 class HQStatistic < CouchRest::Model::Base
 
+<<<<<<< HEAD
   use_database "daily_stats"
 
   property :district_code, String
