@@ -269,35 +269,34 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
 
 
 function drawRightChart(monthly,yearly){
-            aggregates("#monthly_reported", monthly.reported_aggregate, monthly.reported_aggregate);
-            aggregates("#annual_reported", yearly.reported_aggregate, yearly.reported_aggregate);
+            aggregates("#monthly_reported", monthly['reported'], monthly['reported']);
+            aggregates("#annual_reported", yearly['reported'], yearly['reported']);
+
+
+            aggregates("#monthly_printed",monthly['printed'],monthly['reported']);
+            aggregates("#annual_printed",yearly['printed'],yearly['reported']);
+
+
+            aggregates("#monthly_verified",monthly['verified'], monthly['reported']);
+            aggregates("#annual_verified",yearly['verified'],yearly['reported']);
+
+
+            aggregates("#monthly_re_printed",monthly['reprinted'], monthly['reported']);
+            aggregates("#annual_re_printed",yearly['reprinted'],yearly['reported']);
 
 
 
-            aggregates("#monthly_printed",monthly.printed_aggregate,monthly.reported_aggregate);
-             aggregates("#annual_printed",yearly.printed_aggregate,yearly.reported_aggregate);
+             aggregates("#monthly_incomplete",monthly['incompleted'],  monthly['reported']);
+             aggregates("#annual_incomplete",yearly['incompleted'],yearly['reported']);
 
 
-            aggregates("#monthly_verified",monthly.verified_aggregate,monthly.reported_aggregate);
-            aggregates("#annual_verified",yearly.verified_aggregate,yearly.reported_aggregate);
-
-
-            aggregates("#monthly_re_printed",monthly.re_printed_aggregate,monthly.reported_aggregate);
-            aggregates("#annual_re_printed",yearly.re_printed_aggregate,yearly.reported_aggregate);
+             aggregates("#monthly_supected_duplicates",monthly['suspected_duplicates'],  monthly['reported']);
+              aggregates("#annual_supected_duplicates",yearly['suspected_duplicates'],yearly['reported']);
 
 
 
-             aggregates("#monthly_incomplete",monthly.incomplete_aggregate,monthly.reported_aggregate);
-             aggregates("#annual_incomplete",yearly.incomplete_aggregate,yearly.reported_aggregate);
-
-
-             aggregates("#monthly_supected_duplicates",monthly.supected_duplicates_aggregate,monthly.reported_aggregate);
-              aggregates("#annual_supected_duplicates",yearly.supected_duplicates_aggregate,yearly.reported_aggregate);
-
-
-
-             aggregates("#monthly_amendement",monthly.amendement_request_aggregate,monthly.reported_aggregate);
-             aggregates("#annual_amendement",yearly.amendement_request_aggregate,yearly.reported_aggregate);
+             aggregates("#monthly_amendement",monthly['amendements_requests'], monthly['reported']);
+             aggregates("#annual_amendement",yearly['amendements_requests'],yearly['reported']);
 }
  function aggregates(id, value, reported){
         var percent = (value/reported) *100;
@@ -409,16 +408,9 @@ function getData(control, url,call) {
             if (xmlhttp.status == 200) {
 
                 var result = xmlhttp.responseText;
-                
-                if(call ==1){
-                    loadData(control, result);
-                }
-                else if(call==2){
-                    loadRightChart(control,result);
-                }
-                else{
-                    loadPieChart(control,result);
-                }
+                loadData(control, result);
+                loadRightChart(control,result);
+                loadPieChart(control,result);
 
             }
             else if (xmlhttp.status == 400) {
@@ -573,13 +565,14 @@ function loadRightChart(control,data){
 
     var tablecontent = JSON.parse(data);
 
-        var agg = new Aggregate (tablecontent);
-        agg.setAggregates();
+        var monthly = tablecontent['current_month'];
+        var yearly = tablecontent['current_year'];
+        
         //__$("reported").innerHTML = agg.reported_aggregate;
        // __$("registered").innerHTML = agg.registered_aggregate;
-        drawRightChart(agg,agg);
+        drawRightChart(monthly,yearly);
 
-        drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
+        //drawPieChart(parseInt(yearly['verified']),parseInt(yearly['reported']),parseInt(yearly['printed']));
 }
 
 
@@ -588,11 +581,11 @@ function loadPieChart(control,data){
 
     var tablecontent = JSON.parse(data);
 
-        var agg = new Aggregate (tablecontent);
-        agg.setAggregates();
-        drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
-
+    var monthly = tablecontent['current_month'];
+    var yearly = tablecontent['current_year'];
+    drawPieChart(parseInt(yearly['verified']),parseInt(yearly['reported']),parseInt(yearly['printed']));
 }
+
 
 function average_interval (duration){
         var total_interval =0;
@@ -608,8 +601,8 @@ function average_interval (duration){
 /* Highchart Functions*/
 $(document).ready(
     function(){
-        getData(__$("left_body"), "/assets/data.json",2);
-        getData(__$("left_body"), "/assets/data.json",3);
+        //getData(__$("left_body"), "/assets/data.json",2);
+        //getData(__$("left_body"), "/assets/data.json",3);
         
 
     }
