@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'dashboard/map_dashboard'
 
   get 'dashboard/index'
+  get 'dashboard/get_records'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

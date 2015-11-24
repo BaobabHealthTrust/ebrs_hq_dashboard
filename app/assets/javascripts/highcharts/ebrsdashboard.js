@@ -222,7 +222,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total reported, Total registered, Printed</font>',
+                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total Reported, Total Registered, Printed</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -449,8 +449,11 @@ function loadData(control, data) {
 
     var tablecontent = JSON.parse(data);
 
-     
-
+    __$("registered").innerHTML = tablecontent['total_approved'];
+    __$("reported").innerHTML = tablecontent['total_registered'];
+    __$("avg_time").innerHTML = tablecontent['total_duration'];
+    __$("reg_date").innerHTML = tablecontent['reg_date'];
+    tablecontent = tablecontent['results'];
 
      for (var i in tablecontent){
           var tr = document.createElement("tr");
@@ -493,9 +496,8 @@ function loadData(control, data) {
              __$("registered"+i).innerHTML=district_total_registered;
 
             //Average time to register and Average Sum
-            var average = average_interval(tablecontent[i].duration);
+            var average = tablecontent[i].duration;
             __$("time"+i).innerHTML=average;
-            var average = average_interval(tablecontent[i].duration);
             average_sum = average_sum + average;
             num_of_districts = parseInt(i) + 1;
             
@@ -503,7 +505,7 @@ function loadData(control, data) {
             
         }
 
-        __$("avg_time").innerHTML = (average_sum/num_of_districts).toFixed(2);
+        //__$("avg_time").innerHTML = (average_sum/num_of_districts).toFixed(2);
         for (var i in tablecontent){
             drawMiniGraph("#graph"+i, null, tablecontent[i].reported);
           
@@ -521,8 +523,8 @@ setInterval(function() {
 
         if(direction == 1) {
             if(cycle==2){
-
-                    $(location).attr("href", "/dashboard/map_dashboard");
+                     location.reload(true);
+                    //$(location).attr("href", "/dashboard/map_dashboard");
 
             }
             position += step;
@@ -557,7 +559,7 @@ setInterval(function() {
 
 if (__$("left_body")) {
 
-    getData(__$("left_body"), "/assets/data.json",1);
+    getData(__$("left_body"), "/dashboard/get_records",1);
 
 }
 
@@ -573,8 +575,8 @@ function loadRightChart(control,data){
 
         var agg = new Aggregate (tablecontent);
         agg.setAggregates();
-        __$("reported").innerHTML = agg.reported_aggregate;
-        __$("registered").innerHTML = agg.registered_aggregate;
+        //__$("reported").innerHTML = agg.reported_aggregate;
+       // __$("registered").innerHTML = agg.registered_aggregate;
         drawRightChart(agg,agg);
 
         drawPieChart(agg.registered_aggregate,agg.reported_aggregate,agg.printed_aggregate);
