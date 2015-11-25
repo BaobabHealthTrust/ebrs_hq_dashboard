@@ -1,7 +1,7 @@
 require 'couchrest_model'
 class Statistic < CouchRest::Model::Base
 
-  use_database "dashboard"
+  use_database "individual_stats"
 
   property :person_doc_id, String
   property :site_code, String

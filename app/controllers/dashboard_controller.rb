@@ -33,7 +33,7 @@ class DashboardController < ApplicationController
     start_date = end_date - 1.month
     type = "weekly"
 
-    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time)
+    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each
 
     total_duration = 0
     total_registered = 0
@@ -43,22 +43,22 @@ class DashboardController < ApplicationController
       site_code = row[0]
       district = row[1]
 
-        dt = breakdown(type, site_code, start_date, end_date, data)
-        reported = dt.collect{|a, b, c| a}
-        registered = dt.collect{|a, b, c| b}
-        duration = dt.collect{|a, b, c| c}
+      dt = breakdown(type, site_code, start_date, end_date, data)
+      reported = dt.collect{|a, b, c| a}
+      registered = dt.collect{|a, b, c| b}
+      duration = dt.collect{|a, b, c| c}
 
-        total_reported += reported.sum
-        total_registered += registered.sum
-        total_duration += duration.sum
-        average = duration.sum/registered.sum rescue 0
+      total_reported += reported.sum
+      total_registered += registered.sum
+      total_duration += duration.sum
+      average = duration.sum/registered.sum rescue 0
 
-        results << {
-            "district" => district,
-            "reported" => reported,
-            "registered" => registered,
-            "duration"=> "#{(average/60).to_i}h #{average % 60}m"
-          }
+      results << {
+          "district" => district,
+          "reported" => reported,
+          "registered" => registered,
+          "duration"=> "#{(average/60).to_i}h #{average % 60}m"
+        }
     end
 
     total_average = total_duration/total_registered rescue 0
@@ -88,7 +88,9 @@ class DashboardController < ApplicationController
     end
 
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {:reported=>0, :printed=>0, :reprinted=>0, :incompleted=>0, :suspected_duplicates=>0, :amendements_requests=>0, :verified=>0}
+    r = {:reported=>0, :printed=>0, :reprinted=>0, :incompleted=>0, 
+         :suspected_duplicates=>0, :amendements_requests=>0, 
+         :verified=> get_verified(start_date,end_date)}
     (data || []).map do |d|
       r[:reported] += d.reported
       r[:printed] += d.printed
@@ -100,6 +102,10 @@ class DashboardController < ApplicationController
     return r
   end
 
+  def get_verified(start_date,end_date)
+     Statistic.by_date_doc_approved.startkey(start_date.strftime('%Y-%m-%d 00:00:00').to_time).endkey(end_date.strftime('%Y-%m-%d 23:59:59').to_time).count
+  end
+
   def breakdown(type, district_code, s_date, e_date,  data)
     e_date = e_date.to_time.strftime("%Y-%m-%d 23:59:59").to_time
     s_date = s_date.to_time.strftime("%Y-%m-%d 00:00:00").to_time
@@ -109,7 +115,7 @@ class DashboardController < ApplicationController
       date_doc_created = d.date_doc_created.to_time
       date_doc_approved = d.date_doc_approved.to_time rescue nil
 
-      next unless d.site_code.upcase.strip == district_code.upcase.strip
+      next unless d.site_code.upcase.strip == district_code.upcase.strip 
       case type
         when "weekly"
           if(date_doc_created >= s_date and (date_doc_created) <= (s_date + 1.week))
