@@ -72,6 +72,32 @@ class DashboardController < ApplicationController
                    }.to_json
   end
 
+  def get_records_for_pie_chart
+    results = []
+    estart_date = Date.today.beginning_of_year
+    end_date = start_date.end_of_year
+    type = "cumulative"
+
+    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each
+
+    CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
+      site_code = row[0]
+      district = row[1]
+
+      dt = breakdown(type, site_code, start_date, end_date, data)
+      reported = dt.collect{|a, b, c| a}
+
+      results << {
+          "district" => district,
+          "reported" => reported,
+        }
+
+      render :text => results.to_json
+    end
+
+  end
+
+
   def map_dashboard
       @url = "http://#{MAP_CONFIG['user']}:#{MAP_CONFIG['password']}@#{MAP_CONFIG['host']}#{MAP_CONFIG['url']}scaling_factor=#{MAP_CONFIG['scaling_factor']}&scroll=#{MAP_CONFIG['scroll']}"
   end
