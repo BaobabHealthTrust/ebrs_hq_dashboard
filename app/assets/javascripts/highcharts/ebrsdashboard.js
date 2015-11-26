@@ -188,8 +188,8 @@ function drawReportToRegisterChart(id,registered,reported){
     }
 
 
-function drawPieChart(ever_registered, ever_reported,ever_printed){
-
+function drawPieChart(pieData){
+/*
             var total = ever_registered + ever_reported + ever_printed;
             ever_registered_percent = (ever_registered/total)*100;
 
@@ -198,7 +198,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
             ever_printed_percent = (ever_printed/total) * 100;
             ever_printed_percent = ever_printed_percent.toFixed(1);
 
-            var ever_reported_percent = (100 - ever_registered_percent - ever_printed_percent).toFixed(1);
+            var ever_reported_percent = (100 - ever_registered_percent - ever_printed_percent).toFixed(1); */
             // Make monochrome colors and set them as default for all pies
             Highcharts.getOptions().plotOptions.pie.colors = (function () {
                 var colors = [],
@@ -222,7 +222,7 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total Reported, Total Registered, Printed</font>',
+                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total Reported</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -241,32 +241,26 @@ function drawPieChart(ever_registered, ever_reported,ever_printed){
                     }
                 },
                 series: [{
-                    name: "People",
-
-                    data: [
-
-                        {
-                            name: "Registered",
-                            color:'#729fcf',
-                            y: parseFloat(ever_registered_percent)
-                        },
-                        {
-                            name: "Reported",
-                            color: '#cfe7f5',
-                            y: parseFloat(ever_reported_percent)
-                        },
-                        {
-                            name: "Printed",
-                            y:parseFloat(ever_printed_percent)
-                        }
-
-                    ]
+                    name: "National reported",
+                    data: interPieData(pieData)
                 }]
             });
 
 }
 
+function interPieData(data) {
+  data_str = [] ; total = 0; 
+  
+  for(var i = 0; i < data.length ; i++) {
+    total += parseFloat(data[i]["reported"]);
+  }
 
+  for(var i = 0; i < data.length ; i++) {
+    //data_str.push({name: "Registered",color:'#729fcf',y: parseFloat(ever_registered_percent)});
+    data_str.push({name: data[i]['district'], y: (parseFloat(data[i]["reported"])/total)*100});
+  }
+  return data_str;
+}
 
 function drawRightChart(monthly,yearly){
             aggregates("#monthly_reported", monthly['reported'], monthly['reported']);
@@ -581,9 +575,8 @@ function loadPieChart(control,data){
 
     var tablecontent = JSON.parse(data);
 
-    var monthly = tablecontent['current_month'];
-    var yearly = tablecontent['current_year'];
-    drawPieChart(parseInt(yearly['verified']),parseInt(yearly['reported']),parseInt(yearly['printed']));
+    var pieData = tablecontent['pie_chart_data'];
+    drawPieChart(pieData);
 }
 
 
@@ -607,3 +600,4 @@ $(document).ready(
 
     }
 );
+

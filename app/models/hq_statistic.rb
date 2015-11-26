@@ -11,6 +11,7 @@ class HQStatistic < CouchRest::Model::Base
   property :incomplete, Integer, :default => 0
   property :suspectd_duplicates, Integer, :default => 0
   property :amendements_requests, Integer, :default => 0
+  property :approved, Integer, :default => 0
   timestamps!
 
   design do

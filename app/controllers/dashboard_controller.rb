@@ -33,7 +33,8 @@ class DashboardController < ApplicationController
     start_date = end_date - 1.month
     type = "weekly"
 
-    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each
+    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each rescue []
+    render :text => [].to_json if data.blank?
 
     total_duration = 0
     total_registered = 0
@@ -68,33 +69,9 @@ class DashboardController < ApplicationController
                     "total_approved" => total_registered,
                     "reg_date" => "#{start_date.strftime('%d-%b-%Y')} : #{end_date.strftime('%d-%b-%Y')}",
                     "total_duration" => avg, "current_year" => get_data('year'),
-                    "current_month" => get_data('monthly')
+                    "current_month" => get_data('monthly'),
+                    "pie_chart_data" => get_records_for_pie_chart
                    }.to_json
-  end
-
-  def get_records_for_pie_chart
-    results = []
-    estart_date = Date.today.beginning_of_year
-    end_date = start_date.end_of_year
-    type = "cumulative"
-
-    data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each
-
-    CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
-      site_code = row[0]
-      district = row[1]
-
-      dt = breakdown(type, site_code, start_date, end_date, data)
-      reported = dt.collect{|a, b, c| a}
-
-      results << {
-          "district" => district,
-          "reported" => reported,
-        }
-
-      render :text => results.to_json
-    end
-
   end
 
 
@@ -102,7 +79,24 @@ class DashboardController < ApplicationController
       @url = "http://#{MAP_CONFIG['user']}:#{MAP_CONFIG['password']}@#{MAP_CONFIG['host']}#{MAP_CONFIG['url']}scaling_factor=#{MAP_CONFIG['scaling_factor']}&scroll=#{MAP_CONFIG['scroll']}"
   end
 
+
   private
+
+  def get_records_for_pie_chart
+    results = []
+    start_date = Date.today.beginning_of_year
+    end_date = Date.today
+
+    CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
+      site_code = row[0]
+      district = row[1]
+      reported = Statistic.by_site_code_and_date_doc_created.startkey([site_code,start_date.strftime("%Y-%m-%d 00:00:00").to_time]).endkey([site_code,end_date.strftime("%Y-%m-%d 23:59:59").to_time]).count
+
+      results << { "district" => district, "reported" => reported, "site_code" => site_code }
+    end
+    
+    return results
+  end
 
   def get_data(type)
     if type == 'monthly'
@@ -113,23 +107,20 @@ class DashboardController < ApplicationController
       end_date = start_date.end_of_year
     end
 
+    reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {:reported=>0, :printed=>0, :reprinted=>0, :incompleted=>0, 
-         :suspected_duplicates=>0, :amendements_requests=>0, 
-         :verified=> get_verified(start_date,end_date)}
+    r = {:reported=> reported, :printed=>0, :reprinted=>0, :incompleted=>0, 
+         :suspected_duplicates=>0, :amendements_requests=>0, :verified=> 0 }
+
     (data || []).map do |d|
-      r[:reported] += d.reported
       r[:printed] += d.printed
       r[:reprinted] += d.reprinted
       r[:incompleted] += d.incomplete
       r[:suspected_duplicates] += d.suspectd_duplicates
       r[:amendements_requests] += d.amendements_requests 
+      r[:verified] += d.approved
     end
     return r
-  end
-
-  def get_verified(start_date,end_date)
-     Statistic.by_date_doc_approved.startkey(start_date.strftime('%Y-%m-%d 00:00:00').to_time).endkey(end_date.strftime('%Y-%m-%d 23:59:59').to_time).count
   end
 
   def breakdown(type, district_code, s_date, e_date,  data)

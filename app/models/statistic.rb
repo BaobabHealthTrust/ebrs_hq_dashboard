@@ -15,6 +15,7 @@ class Statistic < CouchRest::Model::Base
     view :by_site_code
     view :by_date_doc_created
     view :by_date_doc_approved
+    view :by_site_code_and_date_doc_created
     view :by_site_code_and_date_doc_approved
   end
 end
