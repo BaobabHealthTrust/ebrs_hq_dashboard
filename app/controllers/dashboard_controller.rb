@@ -61,13 +61,13 @@ class DashboardController < ApplicationController
           "duration"=> "#{(average/60).to_i}h #{average % 60}m"
         }
     end
-
+    month = Date.today
     total_average = total_duration/total_registered rescue 0
     avg = "#{(total_average/60).to_i}h #{total_average % 60}m"
     render :text => {"results" => results,
                      "total_registered" => total_reported,
                     "total_approved" => total_registered,
-                    "reg_date" => "#{start_date.strftime('%d-%b-%Y')} : #{end_date.strftime('%d-%b-%Y')}",
+                    "reg_date" => "#{month.strftime('%B %Y')}",
                     "total_duration" => avg, "current_year" => get_data('year'),
                     "current_month" => get_data('monthly'),
                     "pie_chart_data" => get_records_for_pie_chart
