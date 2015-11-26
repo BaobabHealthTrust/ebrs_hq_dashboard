@@ -29,9 +29,25 @@ class DashboardController < ApplicationController
 
   def get_records
     results = []
-    end_date = Date.today
-    start_date = end_date - 1.month
-    type = "weekly"
+    rnd_num = (0..3).to_a.sort{ rand() - 0.5 }.first
+    
+    case rnd_num 
+      when 0
+        start_date = Date.today.beginning_of_week
+        end_date = Date.today.end_of_week
+        type = "daily"
+      when 1
+        start_date = Date.today.beginning_of_month
+        end_date = Date.today.end_of_month
+        type = "weekly"
+      when 2
+        start_date,end_date = get_quarter_dates(Date.today)
+        type = "quarterly"
+      when 3
+        start_date = Date.today.beginning_of_year
+        end_date = Date.today.end_of_year
+        type = "cumulative"
+    end 
 
     data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each rescue []
     render :text => [].to_json if data.blank?
@@ -61,16 +77,38 @@ class DashboardController < ApplicationController
           "duration"=> "#{(average/60).to_i}h #{average % 60}m"
         }
     end
+
+    case type
+      when 'daily'
+        reg_date = "#{start_date.strftime('%d, %b %y')} <=> #{end_date.strftime('%d, %b %y')}"
+      when 'weekly'
+        reg_date = start_date.strftime('%B %Y')
+      when 'quarterly'
+       case start_date.month
+         when 1
+           reg_date = "Quarter 1 #{start_date.strftime('%Y')}"
+         when 4
+           reg_date = "Quarter 2 #{start_date.strftime('%Y')}"
+         when 7
+           reg_date = "Quarter 3 #{start_date.strftime('%Y')}"
+         when 10
+           reg_date = "Quarter 4 #{start_date.strftime('%Y')}"
+       end
+      when 'cumulative'
+        reg_date = "#{start_date.strftime('%Y')}"
+    end
+
     month = Date.today
     total_average = total_duration/total_registered rescue 0
     avg = "#{(total_average/60).to_i}h #{total_average % 60}m"
-    render :text => {"results" => results,
+    render :text => {"results" => results.reverse,
                      "total_registered" => total_reported,
                     "total_approved" => total_registered,
-                    "reg_date" => "#{month.strftime('%B %Y')}",
-                    "total_duration" => avg, "current_year" => get_data('year'),
-                    "current_month" => get_data('monthly'),
-                    "pie_chart_data" => get_records_for_pie_chart
+                    "reg_date" => reg_date,
+                    "total_duration" => avg, "current_year" => get_data('cumulative'),
+                    "current_month" => get_data('weekly'),
+                    "pie_chart_data" => get_records_for_pie_chart,
+                    "Report_freq" => type.titleize
                    }.to_json
   end
 
@@ -99,13 +137,7 @@ class DashboardController < ApplicationController
   end
 
   def get_data(type)
-    if type == 'monthly'
-      start_date = Date.today.beginning_of_month
-      end_date = start_date.end_of_month
-    else
-      start_date = Date.today.beginning_of_year
-      end_date = start_date.end_of_year
-    end
+    start_date, end_date = get_dates(type)
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
@@ -124,16 +156,47 @@ class DashboardController < ApplicationController
   end
 
   def breakdown(type, district_code, s_date, e_date,  data)
+    #s_date, e_date = get_dates(type)
     e_date = e_date.to_time.strftime("%Y-%m-%d 23:59:59").to_time
     s_date = s_date.to_time.strftime("%Y-%m-%d 00:00:00").to_time
 
-    result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0]]
+    result = get_results_breakdown(type) # [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0]]
     (data || []).each do |d|
       date_doc_created = d.date_doc_created.to_time
       date_doc_approved = d.date_doc_approved.to_time rescue nil
 
       next unless d.site_code.upcase.strip == district_code.upcase.strip 
       case type
+        when "daily"
+          if date_doc_created.to_date == s_date.to_date
+            result[0][0] += 1
+            result[0][1] += 1 unless date_doc_approved.blank?
+            result[0][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date == (s_date + 1.day).to_date 
+            result[1][0] += 1
+            result[1][1] += 1 unless date_doc_approved.blank?
+            result[1][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date == (s_date + 2.day).to_date 
+            result[2][0] += 1
+            result[2][1] += 1 unless date_doc_approved.blank?
+            result[2][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date == (s_date + 3.day).to_date 
+            result[3][0] += 1
+            result[3][1] += 1 unless date_doc_approved.blank?
+            result[3][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date == (s_date + 4.day).to_date
+            result[4][0] += 1
+            result[4][1] += 1 unless date_doc_approved.blank?
+            result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date == (s_date + 5.day).to_date 
+            result[4][0] += 1
+            result[4][1] += 1 unless date_doc_approved.blank?
+            result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date == e_date.to_date
+            result[4][0] += 1
+            result[4][1] += 1 unless date_doc_approved.blank?
+            result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          end
         when "weekly"
           if(date_doc_created >= s_date and (date_doc_created) <= (s_date + 1.week))
             result[0][0] += 1
@@ -156,8 +219,112 @@ class DashboardController < ApplicationController
             result[4][1] += 1 unless date_doc_approved.blank?
             result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           end
+        when "quarterly"
+          if date_doc_created.to_date >= s_date.to_date and date_doc_created.to_date <= ((s_date + 1.month) - 1.day).to_date
+            result[0][0] += 1
+            result[0][1] += 1 unless date_doc_approved.blank?
+            result[0][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date >= (s_date + 1.month).to_date and date_doc_created.to_date <= ((s_date + 2.month) - 1.day).to_date
+            result[1][0] += 1
+            result[1][1] += 1 unless date_doc_approved.blank?
+            result[1][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.to_date >= (s_date + 2.month).to_date and date_doc_created.to_date <= ((s_date + 3.month) - 1.day).to_date
+            result[2][0] += 1
+            result[2][1] += 1 unless date_doc_approved.blank?
+            result[2][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          end
+        when "cumulative"
+          if date_doc_created.month == 1
+            result[0][0] += 1
+            result[0][1] += 1 unless date_doc_approved.blank?
+            result[0][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 2
+            result[1][0] += 1
+            result[1][1] += 1 unless date_doc_approved.blank?
+            result[1][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 3
+            result[2][0] += 1
+            result[2][1] += 1 unless date_doc_approved.blank?
+            result[2][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 4
+            result[3][0] += 1
+            result[3][1] += 1 unless date_doc_approved.blank?
+            result[3][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 5
+            result[4][0] += 1
+            result[4][1] += 1 unless date_doc_approved.blank?
+            result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 6
+            result[5][0] += 1
+            result[5][1] += 1 unless date_doc_approved.blank?
+            result[5][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 7
+            result[6][0] += 1
+            result[6][1] += 1 unless date_doc_approved.blank?
+            result[6][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 8
+            result[7][0] += 1
+            result[7][1] += 1 unless date_doc_approved.blank?
+            result[7][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 9
+            result[8][0] += 1
+            result[8][1] += 1 unless date_doc_approved.blank?
+            result[8][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 10
+            result[9][0] += 1
+            result[9][1] += 1 unless date_doc_approved.blank?
+            result[9][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 11
+            result[10][0] += 1
+            result[10][1] += 1 unless date_doc_approved.blank?
+            result[10][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          elsif date_doc_created.month == 12
+            result[11][0] += 1
+            result[11][1] += 1 unless date_doc_approved.blank?
+            result[11][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+          end
       end
     end
     return result
   end
+  
+  def get_quarter_dates(date)
+    if date.month >= 1 and date.month <= 3
+      return [date.beginning_of_year, (date.beginning_of_year + 3.month - 1.day)]
+    elsif date.month > 3 and date.month <= 6
+      return [date.beginning_of_year + 3.month, (date.beginning_of_year + 6.month - 1.day)]
+    elsif date.month > 6 and date.month <= 9
+      return [date.beginning_of_year + 6.month, (date.beginning_of_year + 9.month - 1.day)]
+    elsif date.month > 9 
+      return [date.beginning_of_year + 9.month, (date.beginning_of_year + 12.month - 1.day)]
+    end
+  end
+
+  def get_dates(type)
+    date = Date.today
+    if type == "daily"
+      return [date.beginning_of_week, date.end_of_week]
+    elsif type == "weekly"
+      return [date.beginning_of_month, date.end_of_month]
+    elsif type == "quarterly"
+      return get_quarter_dates(date)
+    elsif type == "cumulative"
+      return [date.beginning_of_year, date.end_of_year]
+    end
+  end
+
+  def get_results_breakdown(type)
+    case type
+      when 'daily'
+        result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0],[0,0,0],[0,0,0]]
+      when 'weekly'
+        result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0]]
+      when 'quarterly'
+        result = [[0,0, 0], [0,0, 0], [0,0, 0]]
+      when 'cumulative'
+        result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0],[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0],[0,0,0],[0,0,0]]
+    end
+    return result
+  end
+
 end

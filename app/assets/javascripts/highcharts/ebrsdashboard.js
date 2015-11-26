@@ -439,6 +439,7 @@ function loadData(control, data) {
     __$("reported").innerHTML = tablecontent['total_registered'];
     __$("avg_time").innerHTML = tablecontent['total_duration'];
     __$("reg_date").innerHTML = tablecontent['reg_date'];
+    __$("report-header").innerHTML = tablecontent['Report_freq'];
     tablecontent = tablecontent['results'];
 
      for (var i in tablecontent){
