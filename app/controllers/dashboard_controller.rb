@@ -29,24 +29,36 @@ class DashboardController < ApplicationController
 
   def get_records
     results = []
-    rnd_num = (0..3).to_a.sort{ rand() - 0.5 }.first
-    
-    case rnd_num 
+
+    circle = Circle.by_description.key('Rotations').each.first rescue []
+    if circle.blank?
+      circle = Circle.create(:circle => 0, :description => 'Rotations')
+    end
+
+    case circle.circle
       when 0
         start_date = Date.today.beginning_of_week
         end_date = Date.today.end_of_week
         type = "daily"
+        circle.circle = 1
+        circle.save
       when 1
         start_date = Date.today.beginning_of_month
         end_date = Date.today.end_of_month
         type = "weekly"
+        circle.circle = 2
+        circle.save
       when 2
         start_date,end_date = get_quarter_dates(Date.today)
         type = "quarterly"
+        circle.circle = 3
+        circle.save
       when 3
         start_date = Date.today.beginning_of_year
         end_date = Date.today.end_of_year
         type = "cumulative"
+        circle.circle = 0
+        circle.save
     end 
 
     data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each rescue []
@@ -101,7 +113,7 @@ class DashboardController < ApplicationController
     month = Date.today
     total_average = total_duration/total_registered rescue 0
     avg = "#{(total_average/60).to_i}h #{total_average % 60}m"
-    render :text => {"results" => results.reverse,
+    render :text => {"results" => results,
                      "total_registered" => total_reported,
                     "total_approved" => total_registered,
                     "reg_date" => reg_date,
@@ -189,13 +201,13 @@ class DashboardController < ApplicationController
             result[4][1] += 1 unless date_doc_approved.blank?
             result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           elsif date_doc_created.to_date == (s_date + 5.day).to_date 
-            result[4][0] += 1
-            result[4][1] += 1 unless date_doc_approved.blank?
-            result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+            result[5][0] += 1
+            result[5][1] += 1 unless date_doc_approved.blank?
+            result[5][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           elsif date_doc_created.to_date == e_date.to_date
-            result[4][0] += 1
-            result[4][1] += 1 unless date_doc_approved.blank?
-            result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+            result[6][0] += 1
+            result[6][1] += 1 unless date_doc_approved.blank?
+            result[6][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           end
         when "weekly"
           if(date_doc_created >= s_date and (date_doc_created) <= (s_date + 1.week))
