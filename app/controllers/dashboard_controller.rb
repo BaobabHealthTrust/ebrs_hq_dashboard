@@ -37,15 +37,15 @@ class DashboardController < ApplicationController
 
     case circle.circle
       when 0
-        start_date = Date.today.beginning_of_week
-        end_date = Date.today.end_of_week
-        type = "daily"
+        start_date = Date.today - 6.day
+        end_date = Date.today
+        type = "last 7 days"
         circle.circle = 1
         circle.save
       when 1
         start_date = Date.today.beginning_of_month
         end_date = Date.today.end_of_month
-        type = "weekly"
+        type = "monthly"
         circle.circle = 2
         circle.save
       when 2
@@ -54,9 +54,15 @@ class DashboardController < ApplicationController
         circle.circle = 3
         circle.save
       when 3
-        start_date = Date.today.beginning_of_year
-        end_date = Date.today.end_of_year
-        type = "cumulative"
+        start_date = Date.today - 12.month
+        end_date = Date.today
+        type = "last 12 months"
+        circle.circle = 4
+        circle.save
+      when 4
+        start_date = Date.today
+        end_date = Date.today
+        type = "today"
         circle.circle = 0
         circle.save
     end 
@@ -91,9 +97,11 @@ class DashboardController < ApplicationController
     end
 
     case type
-      when 'daily'
+      when 'today'
+        reg_date = "#{start_date.strftime('%d, %b %y')}"
+      when 'last 7 days'
         reg_date = "#{start_date.strftime('%d, %b %y')} <=> #{end_date.strftime('%d, %b %y')}"
-      when 'weekly'
+      when 'monthly'
         reg_date = start_date.strftime('%B %Y')
       when 'quarterly'
        case start_date.month
@@ -106,8 +114,8 @@ class DashboardController < ApplicationController
          when 10
            reg_date = "Quarter 4 #{start_date.strftime('%Y')}"
        end
-      when 'cumulative'
-        reg_date = "#{start_date.strftime('%Y')}"
+      when 'last 12 months'
+        reg_date = "#{start_date.strftime('%d, %b %y')} <=> #{end_date.strftime('%d, %b %y')}"
     end
 
     month = Date.today
@@ -124,7 +132,7 @@ class DashboardController < ApplicationController
                     "total_approved" => total_registered,
                     "reg_date" => reg_date,
                     "total_duration" => avg, "current_year" => get_data('cumulative'),
-                    "current_month" => get_data('weekly'),
+                    "current_month" => get_data('monthly'),
                     "pie_chart_data" => get_records_for_pie_chart,
                     "Report_freq" => type.titleize
                    }.to_json
@@ -174,7 +182,6 @@ end
   end
 
   def breakdown(type, district_code, s_date, e_date,  data)
-    #s_date, e_date = get_dates(type)
     e_date = e_date.to_time.strftime("%Y-%m-%d 23:59:59").to_time
     s_date = s_date.to_time.strftime("%Y-%m-%d 00:00:00").to_time
 
@@ -185,7 +192,11 @@ end
 
       next unless d.site_code.upcase.strip == district_code.upcase.strip 
       case type
-        when "daily"
+        when "today"
+          result[0][0] += 1
+          result[0][1] += 1 unless date_doc_approved.blank?
+          result[0][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
+        when "last 7 days"
           if date_doc_created.to_date == s_date.to_date
             result[0][0] += 1
             result[0][1] += 1 unless date_doc_approved.blank?
@@ -215,7 +226,7 @@ end
             result[6][1] += 1 unless date_doc_approved.blank?
             result[6][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           end
-        when "weekly"
+        when "monthly"
           if(date_doc_created >= s_date and (date_doc_created) <= (s_date + 1.week))
             result[0][0] += 1
             result[0][1] += 1 unless date_doc_approved.blank?
@@ -251,7 +262,7 @@ end
             result[2][1] += 1 unless date_doc_approved.blank?
             result[2][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           end
-        when "cumulative"
+        when "last 12 months"
           if date_doc_created.month == 1
             result[0][0] += 1
             result[0][1] += 1 unless date_doc_approved.blank?
@@ -320,27 +331,33 @@ end
 
   def get_dates(type)
     date = Date.today
-    if type == "daily"
-      return [date.beginning_of_week, date.end_of_week]
-    elsif type == "weekly"
+    if type == "last 7 days"
+      return [(date - 6.day), date]
+    elsif type == "monthly"
       return [date.beginning_of_month, date.end_of_month]
     elsif type == "quarterly"
       return get_quarter_dates(date)
-    elsif type == "cumulative"
+    elsif type == "last 12 months"
       return [date.beginning_of_year, date.end_of_year]
+    elsif type == "today"
+      return [date, date]
+    elsif type == "cumulative"
+      return ['2015-08-01'.to_date, date]
     end
   end
 
   def get_results_breakdown(type)
     case type
-      when 'daily'
+      when 'last 7 days'
         result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0],[0,0,0],[0,0,0]]
-      when 'weekly'
+      when 'monthly'
         result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0]]
       when 'quarterly'
         result = [[0,0, 0], [0,0, 0], [0,0, 0]]
-      when 'cumulative'
+      when 'last 12 months'
         result = [[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0],[0,0, 0], [0,0, 0], [0,0, 0],[0,0, 0],[0, 0, 0],[0,0,0],[0,0,0]]
+      when 'today'
+        result = [[0,0, 0]]
     end
     return result
   end
