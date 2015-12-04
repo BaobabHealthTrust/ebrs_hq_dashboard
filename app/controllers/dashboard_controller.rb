@@ -117,7 +117,7 @@ class DashboardController < ApplicationController
     if avg_hours < 24
       avg = "#{avg_hours}h #{avg_mins}m"
     elsif avg_hours >= 24
-      avg = "#{(avg_hours/24)}day"  
+      avg = "#{(avg_hours/24)}d"  
     end
     render :text => {"results" => results,
                      "total_registered" => total_reported,

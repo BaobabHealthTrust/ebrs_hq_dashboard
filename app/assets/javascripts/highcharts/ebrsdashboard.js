@@ -50,7 +50,7 @@ function drawMiniGraph(id, reported, registered){
             spacingTop: 0,
             spacingLeft: 0,
             spacingRight: 0,
-            width: 200,
+            width: 150,
             height: 45
         },
         title: {
@@ -440,7 +440,7 @@ function loadData(control, data) {
           var tr = document.createElement("tr");
           
 
-          var row = "<td width='18.18%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='27.27%' id =graph"+i+" align = 'center'></td><td width='9.091%' id=reported"+i+" align='center'></td><td width='9.099%' id=registered"+i+" align='center'></td><td width='9.091%' id=time"+i+" align='right'></td><td width='27.27' id="+i+" align = 'center'>Bar</td>";
+          var row = "<td width='14.545%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='20%' id =graph"+i+"  align = 'center'></td><td width='12.72%' id=reported"+i+" align='right' style='padding-right:0.8em'></td><td width='12.72%' id=registered"+i+" align='right' style='padding-right:0.3em'></td><td width='12.72%' id=time"+i+" align='right'></td><td width='27.27%' id="+i+" align = 'center'>Bar</td>";
           tr.innerHTML = row;
           control.appendChild(tr);
 
