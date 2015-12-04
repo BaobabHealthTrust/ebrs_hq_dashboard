@@ -24,9 +24,8 @@ namespace :dashboard do
       init_start_date = "2015-08-01".to_date
       end_date = Date.today
       while init_start_date <= end_date
-        `curl http://localhost:3000/get_dashboard_daily_stats/#{init_start_date}/#{district_codes}`
-        end_date -= 1.day
         `curl #{url}/#{path}/#{end_date}/#{district_codes}`
+        end_date -= 1.day
       end 
     end
 
