@@ -112,7 +112,13 @@ class DashboardController < ApplicationController
 
     month = Date.today
     total_average = total_duration/total_registered rescue 0
-    avg = "#{(total_average/60).to_i}h #{total_average % 60}m"
+    avg_hours = (total_average/60).to_i
+    avg_mins  = total_average % 60
+    if avg_hours < 24
+      avg = "#{avg_hours}h #{avg_mins}m"
+    elsif avg_hours >= 24
+      avg = "#{(avg_hours/24)}day"  
+    end
     render :text => {"results" => results,
                      "total_registered" => total_reported,
                     "total_approved" => total_registered,
@@ -122,8 +128,8 @@ class DashboardController < ApplicationController
                     "pie_chart_data" => get_records_for_pie_chart,
                     "Report_freq" => type.titleize
                    }.to_json
-  end
-
+  
+end
 
   def map_dashboard
       @url = "http://#{MAP_CONFIG['user']}:#{MAP_CONFIG['password']}@#{MAP_CONFIG['host']}#{MAP_CONFIG['url']}scaling_factor=#{MAP_CONFIG['scaling_factor']}&scroll=#{MAP_CONFIG['scroll']}"

@@ -189,19 +189,10 @@ function drawReportToRegisterChart(id,registered,reported){
 
 
 function drawPieChart(pieData){
-/*
-            var total = ever_registered + ever_reported + ever_printed;
-            ever_registered_percent = (ever_registered/total)*100;
 
-            ever_registered_percent = ever_registered_percent.toFixed(1);
-
-            ever_printed_percent = (ever_printed/total) * 100;
-            ever_printed_percent = ever_printed_percent.toFixed(1);
-
-            var ever_reported_percent = (100 - ever_registered_percent - ever_printed_percent).toFixed(1); */
             // Make monochrome colors and set them as default for all pies
             Highcharts.getOptions().plotOptions.pie.colors = (function () {
-                var colors = [],
+                var colors = ['#00004d', '#000099', '#070d13', '#1a324c', '#346498', '#6797cb', '#b3cbe5', '#ccccff', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4', '#395C9B', '#923532', '#7B972E', '#6A538D', '#3B83A1', '#CB7221', '#F2E200'],
                     base = Highcharts.getOptions().colors[0],
                     i;
 
@@ -295,7 +286,10 @@ function drawRightChart(monthly,yearly){
  function aggregates(id, value, reported){
         var percent = (value/reported) *100;
         var perId = id+"_percent";
-        html = value + " ("+ parseInt(percent)+"%)";
+        html = value;
+        if(id !="#monthly_reported" && id != "#annual_reported"){
+            html = value + " ("+ parseInt(percent)+"%)";
+        }
         $(perId).html(html);
         drawbarchart(id,percent);
     }
@@ -446,7 +440,7 @@ function loadData(control, data) {
           var tr = document.createElement("tr");
           
 
-          var row = "<td width='18.18%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='27.27%' id =graph"+i+" align = 'center'>Graph</td><td width='9.091%' id=reported"+i+" align='center'></td><td width='9.099%' id=registered"+i+" align='center'></td><td width='9.091%' id=time"+i+" align='right'>15min</td><td width='27.27' id="+i+" align = 'center'>Bar</td>";
+          var row = "<td width='18.18%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='27.27%' id =graph"+i+" align = 'center'></td><td width='9.091%' id=reported"+i+" align='center'></td><td width='9.099%' id=registered"+i+" align='center'></td><td width='9.091%' id=time"+i+" align='right'></td><td width='27.27' id="+i+" align = 'center'>Bar</td>";
           tr.innerHTML = row;
           control.appendChild(tr);
 
