@@ -4,7 +4,7 @@ namespace :ebrs do
   	require Rails.root.join('db','seeds.rb')
   end
   
-  task update_dashboard: :environment do
+  task dashboard!: :environment do
   	require Rails.root.join('bin','dashboard.rb')
   end
   
