@@ -88,11 +88,21 @@ class DashboardController < ApplicationController
       total_duration += duration.sum
       average = duration.sum/registered.sum rescue 0
 
+      average_dis_hours = (average/60).to_i
+      average_dis_mins = average % 60
+      
+      if average_dis_hours < 24
+          average_dis = "#{average_dis_hours}h #{average_dis_mins}m"
+      elsif average_dis_hours >= 24
+          average_dis = "#{(average_dis_hours/24)}d #{average_dis_hours % 24}h"  
+      end
+
+
       results << {
           "district" => district,
           "reported" => reported,
           "registered" => registered,
-          "duration"=> "#{(average/60).to_i}h #{average % 60}m"
+          "duration"=> average_dis
         }
     end
 
@@ -100,7 +110,7 @@ class DashboardController < ApplicationController
       when 'today'
         reg_date = "#{start_date.strftime('%d, %b %y')}"
       when 'last 7 days'
-        reg_date = "#{start_date.strftime('%d, %b %y')} <=> #{end_date.strftime('%d, %b %y')}"
+        reg_date = "#{start_date.strftime('%d, %b')} <=> #{end_date.strftime('%d, %b')}"
       when 'monthly'
         reg_date = start_date.strftime('%B %Y')
       when 'quarterly'
@@ -115,7 +125,7 @@ class DashboardController < ApplicationController
            reg_date = "Quarter 4 #{start_date.strftime('%Y')}"
        end
       when 'last 12 months'
-        reg_date = "#{start_date.strftime('%d, %b %y')} <=> #{end_date.strftime('%d, %b %y')}"
+        reg_date = "#{start_date.strftime('%d, %b %y')} - #{end_date.strftime('%d, %b %y')}"
     end
 
     month = Date.today
@@ -125,7 +135,7 @@ class DashboardController < ApplicationController
     if avg_hours < 24
       avg = "#{avg_hours}h #{avg_mins}m"
     elsif avg_hours >= 24
-      avg = "#{(avg_hours/24)}d"  
+      avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"  
     end
     render :text => {"results" => results,
                      "total_registered" => total_reported,
