@@ -506,7 +506,7 @@ function loadData(control, data) {
 
 }
 
-var step = 2;
+var step = 4;
 var cycle = 1;
 setInterval(function() {
 
