@@ -285,10 +285,20 @@ function drawRightChart(monthly,yearly){
 }
  function aggregates(id, value, reported){
         var percent = (value/reported) *100;
+        percent = 99;
+        
         var perId = id+"_percent";
         html = value;
         if(id !="#monthly_reported" && id != "#annual_reported"){
-            html = value + " ("+ percent.toFixed(2)+"%)";
+            if(percent < 10){
+                percent = "0"+percent.toFixed(2);
+             }
+             else if(percent == 100){
+             }
+             else{
+                percent = percent.toFixed(2);
+             }
+            html = value + " ("+percent+"%)";
         }
         $(perId).html(html);
         drawbarchart(id,percent);
