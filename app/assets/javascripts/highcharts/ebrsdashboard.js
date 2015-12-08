@@ -213,7 +213,7 @@ function drawPieChart(pieData){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total Reported</font>',
+                    text: '<font style="color:#004586;font-size:0.9em;font-weight:bold">National Total Reported</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

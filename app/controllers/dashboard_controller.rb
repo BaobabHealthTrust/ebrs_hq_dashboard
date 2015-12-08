@@ -65,6 +65,7 @@ class DashboardController < ApplicationController
         type = "today"
         circle.circle = 0
         circle.save
+
     end 
 
     data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each rescue []
