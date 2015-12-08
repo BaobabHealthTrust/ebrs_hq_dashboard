@@ -130,6 +130,7 @@ class DashboardController < ApplicationController
 
     month = Date.today
     total_average = total_duration/total_registered rescue 0
+    
     avg_hours = (total_average/60).to_i
     avg_mins  = total_average % 60
     if avg_hours < 24

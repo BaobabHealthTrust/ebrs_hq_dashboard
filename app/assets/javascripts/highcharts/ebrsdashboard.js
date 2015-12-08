@@ -288,7 +288,15 @@ function drawRightChart(monthly,yearly){
         var perId = id+"_percent";
         html = value;
         if(id !="#monthly_reported" && id != "#annual_reported"){
-            html = value + " ("+ parseInt(percent)+"%)";
+            if(percent < 10){
+                percent = "0"+percent.toFixed(2);
+             }
+             else if(percent == 100){
+             }
+             else{
+                percent = percent.toFixed(2);
+             }
+            html = value + " ("+percent+"%)";
         }
         $(perId).html(html);
         drawbarchart(id,percent);
@@ -496,7 +504,7 @@ function loadData(control, data) {
 
 }
 
-var step = 2;
+var step = 4;
 var cycle = 1;
 setInterval(function() {
 
