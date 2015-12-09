@@ -535,8 +535,7 @@ setInterval(function() {
 
                 direction = 1;
                 cycle = 2
-                $(location).attr("href", "/dashboard/map_dashboard");
-
+                
             }
 
         }
