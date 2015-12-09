@@ -288,7 +288,15 @@ function drawRightChart(monthly,yearly){
         var perId = id+"_percent";
         html = value;
         if(id !="#monthly_reported" && id != "#annual_reported"){
-            html = value + " ("+ percent.toFixed(2)+"%)";
+            if(percent < 10){
+                percent = "0"+percent.toFixed(2);
+             }
+             else if(percent == 100){
+             }
+             else{
+                percent = percent.toFixed(2);
+             }
+            html = value + " ("+percent+"%)";
         }
         $(perId).html(html);
         drawbarchart(id,percent);
@@ -514,7 +522,7 @@ setInterval(function() {
 
                 direction = 0;
                 cycle = 1;
-
+                
             }
 
         } else if(direction == 0) {
@@ -527,6 +535,7 @@ setInterval(function() {
 
                 direction = 1;
                 cycle = 2
+                $(location).attr("href", "/dashboard/map_dashboard");
 
             }
 

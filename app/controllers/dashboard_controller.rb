@@ -29,43 +29,33 @@ class DashboardController < ApplicationController
 
   def get_records
     results = []
-
-    circle = Circle.by_description.key('Rotations').each.first rescue []
-    if circle.blank?
-      circle = Circle.create(:circle => 0, :description => 'Rotations')
+    if cookies[:circle].blank?
+      cookies[:circle] = 0
     end
-
-    case circle.circle
+    case cookies[:circle].to_i
       when 0
         start_date = Date.today - 6.day
         end_date = Date.today
         type = "last 7 days"
-        circle.circle = 1
-        circle.save
+        cookies[:circle] = 1
       when 1
         start_date = Date.today.beginning_of_month
         end_date = Date.today.end_of_month
         type = "monthly"
-        circle.circle = 2
-        circle.save
+        cookies[:circle] = 2
       when 2
         start_date,end_date = get_quarter_dates(Date.today)
         type = "quarterly"
-        circle.circle = 3
-        circle.save
+        cookies[:circle] = 3
       when 3
         start_date = Date.today - 12.month
         end_date = Date.today
         type = "last 12 months"
-        circle.circle = 4
-        circle.save
+        cookies[:circle]= 4
       when 4
         start_date = Date.today
         end_date = Date.today
         type = "today"
-        circle.circle = 0
-        circle.save
-
     end 
 
     data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each rescue []
