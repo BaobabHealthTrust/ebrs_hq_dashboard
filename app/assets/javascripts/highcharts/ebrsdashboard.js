@@ -288,15 +288,7 @@ function drawRightChart(monthly,yearly){
         var perId = id+"_percent";
         html = value;
         if(id !="#monthly_reported" && id != "#annual_reported"){
-            if(percent < 10){
-                percent = "0"+percent.toFixed(2);
-             }
-             else if(percent == 100){
-             }
-             else{
-                percent = percent.toFixed(2);
-             }
-            html = value + " ("+percent+"%)";
+          html = value + " (" + parseFloat(percent).toFixed(2) +"%)";
         }
         $(perId).html(html);
         drawbarchart(id,percent);
