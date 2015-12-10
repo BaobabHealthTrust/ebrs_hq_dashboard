@@ -9,8 +9,6 @@ env :PATH, ENV['PATH']
 # http://en.wikipedia.org/wiki/Cron
 
 # Example:
-#
-env :PATH, ENV['PATH']
 #set :output, "log/cron_log.log"
 #
 # every 2.hours do
