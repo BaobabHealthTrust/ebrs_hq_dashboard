@@ -11,7 +11,7 @@ namespace :dashboard do
 
     CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
       district_codes = row[0]
-     `curl #{url}/#{path}/#{district_codes}`
+     `curl -kv #{url}/#{path}/#{district_codes}`
     end
 
     url =  ebrs_hq_daily_stats[:protocol]
@@ -24,7 +24,7 @@ namespace :dashboard do
       init_start_date = "2015-08-01".to_date
       end_date = Date.today
       while init_start_date <= end_date
-        `curl #{url}/#{path}/#{end_date}/#{district_codes}`
+        `curl -kv #{url}/#{path}/#{end_date}/#{district_codes}`
         end_date -= 1.day
       end 
     end
@@ -308,7 +308,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
     elsif type == "today"
       return [date, date]
     elsif type == "cumulative"
-      return ['2015-08-01'.to_date, date]
+      return ['2015-01-01'.to_date, date]
     end
   end
 
