@@ -308,7 +308,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
     elsif type == "today"
       return [date, date]
     elsif type == "cumulative"
-      return ['2015-08-01'.to_date, date]
+      return ['2015-01-01'.to_date, date]
     end
   end
 
