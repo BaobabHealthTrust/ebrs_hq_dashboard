@@ -6,6 +6,7 @@
 
 
 </iframe>
+<% cookies[:loadicinga]=0 %>
 <script type="text/javascript">
 document.getElementById("frame").style.height= (window.innerHeight) + "px";
 $(document).ready(
@@ -15,9 +16,9 @@ $(document).ready(
             $('#fade').fadeOut('slow', function(){
                 $('#fade').fadeIn('slow');
                   console.log("Fade In");
-                $(location).attr("href", "/dashboard/index");
+                $(location).attr("href", "/");
             });
-        },6000);
+        },20000);
 
 
     }

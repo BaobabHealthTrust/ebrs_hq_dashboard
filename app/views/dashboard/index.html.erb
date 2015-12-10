@@ -11,9 +11,14 @@
         </style>
 
 </head>
+
 <body onresize="resize()" onload="resize()" style="overflow:hidden;">
 <div id="main">
-
+<% if cookies[:loadicinga].to_i == 1 %>
+	<script type="text/javascript">
+		window.location.href="/dashboard/map_dashboard";
+	</script>
+<% end %>
 <table id="table" style="width: 100%; border-collapse: collapse;" border="0" cellpadding=4>
 	<tr valign="bottom" style="border-bottom: solid 0.1em;border-color: #008FB2;">
 		<th width="8%">&nbsp;</th>

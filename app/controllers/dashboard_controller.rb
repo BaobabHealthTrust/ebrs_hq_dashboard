@@ -15,6 +15,11 @@ class DashboardController < ApplicationController
     if cookies[:circle].blank?
       cookies[:circle] = 0
     end
+
+    if cookies[:circle].to_i == 5
+        cookies[:loadicinga] = 0
+        cookies[:circle] = 0
+    end
     case cookies[:circle].to_i
       when 0
         start_date = Date.today - 6.day
@@ -39,15 +44,16 @@ class DashboardController < ApplicationController
         start_date = Date.today
         end_date = Date.today
         file ="today.json"
-        cookies[:circle] = 0
+        cookies[:circle] = 5
+        cookies[:loadicinga] = 1
     end 
     file_name = Rails.root.join('app/assets/data/', file)
     fileinput = File.read(file_name)
-    results = fileinput.slice(1, (fileinput.length-2)).gsub("=",":").gsub("\\u003e","").delete! "\\"
+    results = fileinput.slice(1, (fileinput.length-2)).gsub("=",":").gsub("\\u003e","").gsub("u003c","").delete! "\\"
 
     render :text => results
   
-end
+  end
 
   def map_dashboard
       @url = "http://#{MAP_CONFIG['user']}:#{MAP_CONFIG['password']}@#{MAP_CONFIG['host']}#{MAP_CONFIG['url']}scaling_factor=#{MAP_CONFIG['scaling_factor']}&scroll=#{MAP_CONFIG['scroll']}"
