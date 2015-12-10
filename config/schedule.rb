@@ -10,7 +10,8 @@ env :PATH, ENV['PATH']
 
 # Example:
 #
-# set :output, "/path/to/my/cron_log.log"
+env :PATH, ENV['PATH']
+#set :output, "log/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -24,6 +25,19 @@ env :PATH, ENV['PATH']
 
 # Learn more: http://github.com/javan/whenever
 
+
 every 2.hours do
   rake "ebrs:dashboard_updates"
+end
+
+every :reboot do
+	rake "dashboard:dashboard_files"
+end
+
+every 10.minutes do
+  rake "dashboard:stats"
+end
+
+every 5.minutes do
+ 	rake "dashboard:dashboard_files"
 end
