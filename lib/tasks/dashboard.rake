@@ -51,7 +51,7 @@ namespace :dashboard do
             type = "quarterly"
             data_file = "quarterly.json"
           when 3
-            start_date = Date.today - 12.month
+            start_date = Date.today - 11.month
             end_date = Date.today
             type = "last 12 months"
             data_file = "last_12_months.json"
@@ -229,51 +229,52 @@ def breakdown(type, district_code, s_date, e_date,  data)
             result[2][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
           end
         when "last 12 months"
-          if date_doc_created.month == 1
+          month_break_down = get_month_break_down
+          if date_doc_created.to_date >= month_break_down[0][0] and date_doc_created.to_date <= month_break_down[0][1]
             result[0][0] += 1
             result[0][1] += 1 unless date_doc_approved.blank?
             result[0][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 2
+          elsif date_doc_created.to_date >= month_break_down[1][0] and date_doc_created.to_date <= month_break_down[1][1]
             result[1][0] += 1
             result[1][1] += 1 unless date_doc_approved.blank?
             result[1][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 3
+          elsif date_doc_created.to_date >= month_break_down[2][0] and date_doc_created.to_date <= month_break_down[2][1]
             result[2][0] += 1
             result[2][1] += 1 unless date_doc_approved.blank?
             result[2][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 4
+          elsif date_doc_created.to_date >= month_break_down[3][0] and date_doc_created.to_date <= month_break_down[3][1]
             result[3][0] += 1
             result[3][1] += 1 unless date_doc_approved.blank?
             result[3][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 5
+          elsif date_doc_created.to_date >= month_break_down[4][0] and date_doc_created.to_date <= month_break_down[4][1]
             result[4][0] += 1
             result[4][1] += 1 unless date_doc_approved.blank?
             result[4][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 6
+          elsif date_doc_created.to_date >= month_break_down[5][0] and date_doc_created.to_date <= month_break_down[5][1]
             result[5][0] += 1
             result[5][1] += 1 unless date_doc_approved.blank?
             result[5][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 7
+          elsif date_doc_created.to_date >= month_break_down[6][0] and date_doc_created.to_date <= month_break_down[6][1]
             result[6][0] += 1
             result[6][1] += 1 unless date_doc_approved.blank?
             result[6][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 8
+          elsif date_doc_created.to_date >= month_break_down[7][0] and date_doc_created.to_date <= month_break_down[7][1]
             result[7][0] += 1
             result[7][1] += 1 unless date_doc_approved.blank?
             result[7][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 9
+          elsif date_doc_created.to_date >= month_break_down[8][0] and date_doc_created.to_date <= month_break_down[8][1]
             result[8][0] += 1
             result[8][1] += 1 unless date_doc_approved.blank?
             result[8][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 10
+          elsif date_doc_created.to_date >= month_break_down[9][0] and date_doc_created.to_date <= month_break_down[9][1]
             result[9][0] += 1
             result[9][1] += 1 unless date_doc_approved.blank?
             result[9][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 11
+          elsif date_doc_created.to_date >= month_break_down[10][0] and date_doc_created.to_date <= month_break_down[10][1]
             result[10][0] += 1
             result[10][1] += 1 unless date_doc_approved.blank?
             result[10][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
-          elsif date_doc_created.month == 12
+          elsif date_doc_created.to_date >= month_break_down[11][0] and date_doc_created.to_date <= month_break_down[11][1]
             result[11][0] += 1
             result[11][1] += 1 unless date_doc_approved.blank?
             result[11][2] += ((date_doc_approved - date_doc_created)/60).round unless date_doc_approved.blank?
@@ -304,7 +305,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
     elsif type == "quarterly"
       return get_quarter_dates(date)
     elsif type == "last 12 months"
-      return [date.beginning_of_year, date.end_of_year]
+      return [date - 11.months, date]
     elsif type == "today"
       return [date, date]
     elsif type == "cumulative"
@@ -327,7 +328,8 @@ def breakdown(type, district_code, s_date, e_date,  data)
     end
     return result
   end
- def get_data(type)
+ 
+  def get_data(type)
     start_date, end_date = get_dates(type)
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
@@ -345,6 +347,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
     end
     return r
   end
+  
   def get_records_for_pie_chart
     results = []
     start_date = Date.today.beginning_of_year
@@ -359,4 +362,13 @@ def breakdown(type, district_code, s_date, e_date,  data)
     end
     
     return results
+  end
+
+  def get_month_break_down
+    end_date = Date.today ; col_months = [] 
+    11.downto(1).each do |m|
+      curr_month = end_date - m.month
+      col_months << [curr_month.beginning_of_month, curr_month.end_of_month]
+    end
+    return col_months << [end_date.beginning_of_month, end_date.end_of_month] 
   end
