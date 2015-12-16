@@ -23,4 +23,4 @@ nbproject/
 .idea/
 *.pid
 *.swp
-app/assests/data/*.json
+app/assets/data/*.json
