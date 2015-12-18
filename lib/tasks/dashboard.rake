@@ -51,7 +51,7 @@ namespace :dashboard do
             type = "quarterly"
             data_file = "quarterly.json"
           when 3
-            start_date = Date.today - 11.month
+            start_date = Date.today - 12.month
             end_date = Date.today
             type = "last 12 months"
             data_file = "last_12_months.json"
