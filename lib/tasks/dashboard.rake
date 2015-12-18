@@ -305,7 +305,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
     elsif type == "quarterly"
       return get_quarter_dates(date)
     elsif type == "last 12 months"
-      return [date - 11.months, date]
+      return [date - 12.months, date]
     elsif type == "today"
       return [date, date]
     elsif type == "cumulative"
