@@ -27,7 +27,7 @@ env :PATH, ENV['PATH']
 
 
 every 2.hours do
-  rake "ebrs:dashboard_updates"
+  rake "ebrs:dashboard!"
 end
 
 every :reboot do
