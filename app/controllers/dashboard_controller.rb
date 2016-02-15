@@ -83,10 +83,11 @@ class DashboardController < ApplicationController
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {:reported=> reported, :printed=>0, :reprinted=>0, :incompleted=>0, 
+    r = {:reported=> reported, :approved=>0, :printed=>0, :reprinted=>0, :incompleted=>0, 
          :suspected_duplicates=>0, :amendements_requests=>0, :verified=> 0 }
 
     (data || []).map do |d|
+      r[:approved] += d.approved
       r[:printed] += d.printed
       r[:reprinted] += d.reprinted
       r[:incompleted] += d.incomplete

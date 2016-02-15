@@ -257,6 +257,8 @@ function drawRightChart(monthly,yearly){
             aggregates("#monthly_reported", monthly['reported'], monthly['reported']);
             aggregates("#annual_reported", yearly['reported'], yearly['reported']);
 
+            aggregates("#monthly_registered", monthly['approved'], monthly['reported']);
+            aggregates("#annual_registered", yearly['printed'], yearly['reported']);
 
             aggregates("#monthly_printed",monthly['printed'],monthly['reported']);
             aggregates("#annual_printed",yearly['printed'],yearly['reported']);

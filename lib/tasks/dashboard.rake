@@ -45,7 +45,7 @@ namespace :dashboard do
             start_date = Date.today.beginning_of_month
             end_date = Date.today.end_of_month
             type = "monthly"
-           data_file = "monthly.json"
+            data_file = "monthly.json"
           when 2
             start_date,end_date = get_quarter_dates(Date.today)
             type = "quarterly"
@@ -133,7 +133,7 @@ namespace :dashboard do
         if avg_hours < 24
           avg = "#{avg_hours}h #{avg_mins}m"
         elsif avg_hours >= 24
-          avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"  
+          avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"
         end
           output = "{\"results\"=>#{results},\"total_registered\"=> #{total_reported},\"total_approved\" => #{total_registered},\"reg_date\" => \"#{reg_date}\",\"total_duration\" => \"#{avg}\",\"current_year\" => #{get_data('cumulative')},\"current_month\" => #{get_data('monthly')},\"pie_chart_data\" => #{get_records_for_pie_chart},\"Report_freq\" => \"#{type.titleize}\"}"
         newfile = File.new("#{Rails.root}/app/assets/data/#{data_file}", "w+")
@@ -332,10 +332,11 @@ def breakdown(type, district_code, s_date, e_date,  data)
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {"reported"=> reported, "printed"=>0, "reprinted"=>0, "incompleted"=>0, 
+    r = {"reported"=> reported, "approved"=>0 "printed"=>0, "reprinted"=>0, "incompleted"=>0, 
          "suspected_duplicates"=>0, "amendements_requests"=>0, "verified"=> 0 }
 
     (data || []).map do |d|
+      r["approved"] += d.approved
       r["printed"] += d.printed
       r["reprinted"] += d.reprinted
       r["incompleted"] += d.incomplete
