@@ -258,32 +258,25 @@ function drawRightChart(monthly,yearly){
             aggregates("#annual_reported", yearly['reported'], yearly['reported']);
 
             aggregates("#monthly_registered", monthly['approved'], monthly['reported']);
-            aggregates("#annual_registered", yearly['printed'], yearly['reported']);
+            aggregates("#annual_registered", yearly['approved'], yearly['reported']);
 
             aggregates("#monthly_printed",monthly['printed'],monthly['reported']);
             aggregates("#annual_printed",yearly['printed'],yearly['reported']);
 
-
             aggregates("#monthly_verified",monthly['verified'], monthly['reported']);
             aggregates("#annual_verified",yearly['verified'],yearly['reported']);
-
 
             aggregates("#monthly_re_printed",monthly['reprinted'], monthly['reported']);
             aggregates("#annual_re_printed",yearly['reprinted'],yearly['reported']);
 
+            aggregates("#monthly_incomplete",monthly['incompleted'],  monthly['reported']);
+            aggregates("#annual_incomplete",yearly['incompleted'],yearly['reported']);
 
+            aggregates("#monthly_supected_duplicates",monthly['suspected_duplicates'],  monthly['reported']);
+            aggregates("#annual_supected_duplicates",yearly['suspected_duplicates'],yearly['reported']);
 
-             aggregates("#monthly_incomplete",monthly['incompleted'],  monthly['reported']);
-             aggregates("#annual_incomplete",yearly['incompleted'],yearly['reported']);
-
-
-             aggregates("#monthly_supected_duplicates",monthly['suspected_duplicates'],  monthly['reported']);
-              aggregates("#annual_supected_duplicates",yearly['suspected_duplicates'],yearly['reported']);
-
-
-
-             aggregates("#monthly_amendement",monthly['amendements_requests'], monthly['reported']);
-             aggregates("#annual_amendement",yearly['amendements_requests'],yearly['reported']);
+            aggregates("#monthly_amendement",monthly['amendements_requests'], monthly['reported']);
+            aggregates("#annual_amendement",yearly['amendements_requests'],yearly['reported']);
 }
  function aggregates(id, value, reported){
         var percent = (value/reported) *100;
