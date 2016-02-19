@@ -1,3 +1,8 @@
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+#set :path, Rails.root
+#set :output, 'log/cron.log'
+env :PATH, ENV['PATH']
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -19,12 +24,20 @@ set :output, "log/cron_log.log"
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+
+every 2.hours do
+  rake "ebrs:dashboard!"
+end
+
 every :reboot do
 	rake "dashboard:dashboard_files"
 end
+
 every 10.minutes do
   rake "dashboard:stats"
 end
-every 1.minutes do
+
+every 5.minutes do
  	rake "dashboard:dashboard_files"
 end

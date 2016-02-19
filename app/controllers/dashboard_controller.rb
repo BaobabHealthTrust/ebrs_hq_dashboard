@@ -254,11 +254,11 @@ class DashboardController < ApplicationController
     elsif type == "quarterly"
       return get_quarter_dates(date)
     elsif type == "last 12 months"
-      return [date.beginning_of_year, date.end_of_year]
+      return [(date - 12.month), date]
     elsif type == "today"
       return [date, date]
     elsif type == "cumulative"
-      return ['2015-08-01'.to_date, date]
+      return ['2015-01-01'.to_date, date]
     end
   end
 
