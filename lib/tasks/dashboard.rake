@@ -136,7 +136,7 @@ namespace :dashboard do
           avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"  
         end
           output = "{\"results\"=>#{results},\"total_registered\"=> #{total_reported},\"total_approved\" => #{total_registered},\"reg_date\" => \"#{reg_date}\",\"total_duration\" => \"#{avg}\",\"current_year\" => #{get_data('cumulative')},\"current_month\" => #{get_data('monthly')},\"pie_chart_data\" => #{get_records_for_pie_chart},\"Report_freq\" => \"#{type.titleize}\"}"
-        newfile = File.new("#{Rails.root}/app/assets/data/#{data_file}", "w+")
+        newfile = File.new("#{Rails.root}/app/assets/data/#{data_file}" , "w+")
         if newfile
             newfile.syswrite(output.to_json)
         else
