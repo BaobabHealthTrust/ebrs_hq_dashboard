@@ -333,13 +333,22 @@ def breakdown(type, district_code, s_date, e_date,  data)
     start_date, end_date = get_dates(type)
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
-    registered = Statistic.by_registered.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each.count
+    registered_data = Statistic.by_date_doc_approved.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time)
+    registered= 0
+    if type =="monthly"
+        registered_data.each do|statistic|
+            next unless statistic.date_doc_created.to_s.start_with?(start_date.strftime("%Y-%m-").to_s)
+            registered += 1
+        end
+    else
+        registered= registered_data.each.count
+    end
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
     r = {"reported"=> reported, "registered" => registered, "printed"=>0, "reprinted"=>0, "incompleted"=>0, 
          "suspected_duplicates"=>0, "amendements_requests"=>0, "verified"=> 0 }
 
     (data || []).map do |d|
-      r["approved"] += d.approved
+      
       r["printed"] += d.printed
       r["reprinted"] += d.reprinted
       r["incompleted"] += d.incomplete
