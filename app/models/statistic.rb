@@ -21,7 +21,7 @@ class Statistic < CouchRest::Model::Base
          :map => "function(doc) {
                   if (doc['type'] == 'Statistic') {
                     if(doc['date_doc_approved'] !=null){
-                      emit([doc['date_doc_approved']], 1);
+                      emit(doc['date_doc_approved'], 1);
                     }
                   }
                 }"
