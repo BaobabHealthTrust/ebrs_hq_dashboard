@@ -37,29 +37,29 @@ namespace :dashboard do
       for cycle in cycles
         case cycle
           when 0
-          start_date = Date.today - 6.day
-          end_date = Date.today
-          type = "last 7 days"
-          data_file = "weekly.json"
-          when 1
-            start_date = Date.today.beginning_of_month
-            end_date = Date.today.end_of_month
-            type = "monthly"
-           data_file = "monthly.json"
-          when 2
-            start_date,end_date = get_quarter_dates(Date.today)
-            type = "quarterly"
-            data_file = "quarterly.json"
-          when 3
-            start_date = Date.today - 11.month
-            end_date = Date.today
-            type = "last 12 months"
-            data_file = "last_12_months.json"
-          when 4
             start_date = Date.today
             end_date = Date.today
             type = "today"
             data_file = "today.json"
+          when 1
+            start_date = Date.today - 6.day
+            end_date = Date.today
+            type = "last 7 days"
+            data_file = "weekly.json"
+          when 2
+            start_date = Date.today.beginning_of_month
+            end_date = Date.today.end_of_month
+            type = "monthly"
+           data_file = "monthly.json"
+          when 3
+            start_date,end_date = get_quarter_dates(Date.today)
+            type = "quarterly"
+            data_file = "quarterly.json"
+          when 4
+            start_date = Date.today - 12.month
+            end_date = Date.today
+            type = "last 12 months"
+            data_file = "last_12_months.json"
           
         end
       
@@ -133,10 +133,10 @@ namespace :dashboard do
         if avg_hours < 24
           avg = "#{avg_hours}h #{avg_mins}m"
         elsif avg_hours >= 24
-          avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"  
+          avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"
         end
           output = "{\"results\"=>#{results},\"total_registered\"=> #{total_reported},\"total_approved\" => #{total_registered},\"reg_date\" => \"#{reg_date}\",\"total_duration\" => \"#{avg}\",\"current_year\" => #{get_data('cumulative')},\"current_month\" => #{get_data('monthly')},\"pie_chart_data\" => #{get_records_for_pie_chart},\"Report_freq\" => \"#{type.titleize}\"}"
-        newfile = File.new("#{Rails.root}/app/assets/data/#{data_file}", "w+")
+        newfile = File.new("#{Rails.root}/app/assets/data/#{data_file}" , "w+")
         if newfile
             newfile.syswrite(output.to_json)
         else
@@ -305,7 +305,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
     elsif type == "quarterly"
       return get_quarter_dates(date)
     elsif type == "last 12 months"
-      return [date - 11.months, date]
+      return [date - 12.months, date]
     elsif type == "today"
       return [date, date]
     elsif type == "cumulative"
@@ -333,11 +333,22 @@ def breakdown(type, district_code, s_date, e_date,  data)
     start_date, end_date = get_dates(type)
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
+    registered_data = Statistic.by_date_doc_approved.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time)
+    registered= 0
+    if type =="monthly"
+        registered_data.each do|statistic|
+            next unless statistic.date_doc_created.to_s.start_with?(start_date.strftime("%Y-%m-").to_s)
+            registered += 1
+        end
+    else
+        registered= registered_data.each.count
+    end
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {"reported"=> reported, "printed"=>0, "reprinted"=>0, "incompleted"=>0, 
+    r = {"reported"=> reported, "registered" => registered, "printed"=>0, "reprinted"=>0, "incompleted"=>0, 
          "suspected_duplicates"=>0, "amendements_requests"=>0, "verified"=> 0 }
 
     (data || []).map do |d|
+      
       r["printed"] += d.printed
       r["reprinted"] += d.reprinted
       r["incompleted"] += d.incomplete

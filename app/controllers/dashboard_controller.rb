@@ -22,30 +22,31 @@ class DashboardController < ApplicationController
     end
     case cookies[:circle].to_i
       when 0
-        start_date = Date.today - 6.day
-        end_date = Date.today
-        file =  "weekly.json"
-        cookies[:circle] = 1
-      when 1
-        start_date = Date.today.beginning_of_month
-        end_date = Date.today.end_of_month
-        file = "monthly.json"
-        cookies[:circle] = 2
-      when 2
-        start_date,end_date = get_quarter_dates(Date.today)
-       file= "quarterly.json"
-        cookies[:circle] = 3
-      when 3
-        start_date = Date.today - 12.month
-        end_date = Date.today
-      file = "last_12_months.json"
-        cookies[:circle]= 4
-      when 4
         start_date = Date.today
         end_date = Date.today
         file ="today.json"
-        cookies[:circle] = 5
-        cookies[:loadicinga] = 1
+        cookies[:circle] = 1
+      when 1
+        start_date = Date.today - 6.day
+        end_date = Date.today
+        file =  "weekly.json"
+        cookies[:circle] = 2
+      when 2
+        start_date = Date.today.beginning_of_month
+        end_date = Date.today.end_of_month
+        file = "monthly.json"
+        cookies[:circle] = 3
+      when 3
+        start_date,end_date = get_quarter_dates(Date.today)
+       file= "quarterly.json"
+        cookies[:circle] = 4
+      when 4
+        start_date = Date.today - 12.month
+        end_date = Date.today
+        file = "last_12_months.json"
+        cookies[:circle]= 5
+        cookies[:loadicinga] = 0
+
     end 
     file_name = Rails.root.join('app/assets/data/', file)
     fileinput = File.read(file_name)
@@ -83,10 +84,11 @@ class DashboardController < ApplicationController
 
     reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
     data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {:reported=> reported, :printed=>0, :reprinted=>0, :incompleted=>0, 
+    r = {:reported=> reported, :approved=>0, :printed=>0, :reprinted=>0, :incompleted=>0, 
          :suspected_duplicates=>0, :amendements_requests=>0, :verified=> 0 }
 
     (data || []).map do |d|
+      r[:approved] += d.approved
       r[:printed] += d.printed
       r[:reprinted] += d.reprinted
       r[:incompleted] += d.incomplete

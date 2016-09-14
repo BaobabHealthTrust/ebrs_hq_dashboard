@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 #set :path, Rails.root
 #set :output, 'log/cron.log'
-env :PATH, ENV['PATH']
 
 # Use this file to easily define all of your cron jobs.
 #
@@ -10,6 +9,9 @@ env :PATH, ENV['PATH']
 
 # Example:
 #set :output, "log/cron_log.log"
+#
+env :PATH, ENV['PATH']
+set :output, "log/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -25,11 +27,11 @@ env :PATH, ENV['PATH']
 
 
 every 2.hours do
-  rake "ebrs:dashboard!"
+  rake "ebrs:dashboard_updates"
 end
 
 every :reboot do
-	rake "dashboard:dashboard_files"
+  rake "dashboard:dashboard_files"
 end
 
 every 10.minutes do
@@ -37,5 +39,5 @@ every 10.minutes do
 end
 
 every 5.minutes do
- 	rake "dashboard:dashboard_files"
+  rake "dashboard:dashboard_files"
 end

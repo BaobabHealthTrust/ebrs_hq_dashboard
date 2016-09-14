@@ -213,7 +213,7 @@ function drawPieChart(pieData){
                     type: 'pie'
                 },
                 title: {
-                    text: '<font style="color:#004586;font-size:0.75em;font-weight:bold">National Total Reported</font>',
+                    text: '<font style="color:#004586;font-size:0.9em;font-weight:bold">National Total Reported</font>',
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -257,31 +257,26 @@ function drawRightChart(monthly,yearly){
             aggregates("#monthly_reported", monthly['reported'], monthly['reported']);
             aggregates("#annual_reported", yearly['reported'], yearly['reported']);
 
+            aggregates("#monthly_registered", monthly['registered'], monthly['reported']);
+            aggregates("#annual_registered", yearly['registered'], yearly['reported']);
 
             aggregates("#monthly_printed",monthly['printed'],monthly['reported']);
             aggregates("#annual_printed",yearly['printed'],yearly['reported']);
 
-
             aggregates("#monthly_verified",monthly['verified'], monthly['reported']);
             aggregates("#annual_verified",yearly['verified'],yearly['reported']);
-
 
             aggregates("#monthly_re_printed",monthly['reprinted'], monthly['reported']);
             aggregates("#annual_re_printed",yearly['reprinted'],yearly['reported']);
 
+            aggregates("#monthly_incomplete",monthly['incompleted'],  monthly['reported']);
+            aggregates("#annual_incomplete",yearly['incompleted'],yearly['reported']);
 
+            aggregates("#monthly_supected_duplicates",monthly['suspected_duplicates'],  monthly['reported']);
+            aggregates("#annual_supected_duplicates",yearly['suspected_duplicates'],yearly['reported']);
 
-             aggregates("#monthly_incomplete",monthly['incompleted'],  monthly['reported']);
-             aggregates("#annual_incomplete",yearly['incompleted'],yearly['reported']);
-
-
-             aggregates("#monthly_supected_duplicates",monthly['suspected_duplicates'],  monthly['reported']);
-              aggregates("#annual_supected_duplicates",yearly['suspected_duplicates'],yearly['reported']);
-
-
-
-             aggregates("#monthly_amendement",monthly['amendements_requests'], monthly['reported']);
-             aggregates("#annual_amendement",yearly['amendements_requests'],yearly['reported']);
+            aggregates("#monthly_amendement",monthly['amendements_requests'], monthly['reported']);
+            aggregates("#annual_amendement",yearly['amendements_requests'],yearly['reported']);
 }
  function aggregates(id, value, reported){
         var percent = (value/reported) *100;
@@ -514,7 +509,7 @@ setInterval(function() {
 
                 direction = 0;
                 cycle = 1;
-
+                
             }
 
         } else if(direction == 0) {
@@ -527,7 +522,7 @@ setInterval(function() {
 
                 direction = 1;
                 cycle = 2
-
+                
             }
 
         }

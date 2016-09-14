@@ -6,6 +6,7 @@ class HQStatistic < CouchRest::Model::Base
   property :district_code, String
   property :reported_date, Date
   property :reported, Integer, :default => 0
+  property :registered, Integer, :default => 0
   property :printed, Integer, :default => 0
   property :reprinted, Integer, :default => 0
   property :incomplete, Integer, :default => 0
