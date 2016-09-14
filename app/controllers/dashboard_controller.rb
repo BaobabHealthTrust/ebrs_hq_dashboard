@@ -22,30 +22,31 @@ class DashboardController < ApplicationController
     end
     case cookies[:circle].to_i
       when 0
-        start_date = Date.today - 6.day
-        end_date = Date.today
-        file =  "weekly.json"
-        cookies[:circle] = 1
-      when 1
-        start_date = Date.today.beginning_of_month
-        end_date = Date.today.end_of_month
-        file = "monthly.json"
-        cookies[:circle] = 2
-      when 2
-        start_date,end_date = get_quarter_dates(Date.today)
-       file= "quarterly.json"
-        cookies[:circle] = 3
-      when 3
-        start_date = Date.today - 12.month
-        end_date = Date.today
-      file = "last_12_months.json"
-        cookies[:circle]= 4
-      when 4
         start_date = Date.today
         end_date = Date.today
         file ="today.json"
-        cookies[:circle] = 5
-        cookies[:loadicinga] = 1
+        cookies[:circle] = 1
+      when 1
+        start_date = Date.today - 6.day
+        end_date = Date.today
+        file =  "weekly.json"
+        cookies[:circle] = 2
+      when 2
+        start_date = Date.today.beginning_of_month
+        end_date = Date.today.end_of_month
+        file = "monthly.json"
+        cookies[:circle] = 3
+      when 3
+        start_date,end_date = get_quarter_dates(Date.today)
+       file= "quarterly.json"
+        cookies[:circle] = 4
+      when 4
+        start_date = Date.today - 12.month
+        end_date = Date.today
+        file = "last_12_months.json"
+        cookies[:circle]= 5
+        cookies[:loadicinga] = 0
+
     end 
     file_name = Rails.root.join('app/assets/data/', file)
     fileinput = File.read(file_name)

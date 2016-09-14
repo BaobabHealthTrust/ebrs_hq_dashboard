@@ -37,29 +37,29 @@ namespace :dashboard do
       for cycle in cycles
         case cycle
           when 0
-          start_date = Date.today - 6.day
-          end_date = Date.today
-          type = "last 7 days"
-          data_file = "weekly.json"
-          when 1
-            start_date = Date.today.beginning_of_month
-            end_date = Date.today.end_of_month
-            type = "monthly"
-            data_file = "monthly.json"
-          when 2
-            start_date,end_date = get_quarter_dates(Date.today)
-            type = "quarterly"
-            data_file = "quarterly.json"
-          when 3
-            start_date = Date.today - 12.month
-            end_date = Date.today
-            type = "last 12 months"
-            data_file = "last_12_months.json"
-          when 4
             start_date = Date.today
             end_date = Date.today
             type = "today"
             data_file = "today.json"
+          when 1
+            start_date = Date.today - 6.day
+            end_date = Date.today
+            type = "last 7 days"
+            data_file = "weekly.json"
+          when 2
+            start_date = Date.today.beginning_of_month
+            end_date = Date.today.end_of_month
+            type = "monthly"
+           data_file = "monthly.json"
+          when 3
+            start_date,end_date = get_quarter_dates(Date.today)
+            type = "quarterly"
+            data_file = "quarterly.json"
+          when 4
+            start_date = Date.today - 12.month
+            end_date = Date.today
+            type = "last 12 months"
+            data_file = "last_12_months.json"
           
         end
       
