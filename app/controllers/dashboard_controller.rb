@@ -49,10 +49,8 @@ class DashboardController < ApplicationController
 
     end 
     file_name = Rails.root.join('app/assets/data/', file)
-    fileinput = File.read(file_name)
-    results = fileinput.slice(1, (fileinput.length-2)).gsub("=",":").gsub("\\u003e","").gsub("u003c","").delete! "\\"
-
-    render :text => results
+    results = JSON.parse(File.read(file_name))
+    render :text => results.to_json
   
   end
 

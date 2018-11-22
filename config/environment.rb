@@ -6,4 +6,3 @@ Rails.application.initialize!
 require "csv"
 require "yaml"
 
-MAP_CONFIG = YAML.load_file("#{Rails.root.to_s}/config/map_dashboard.yml")

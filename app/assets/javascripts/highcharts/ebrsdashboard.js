@@ -256,7 +256,6 @@ function interPieData(data) {
 function drawRightChart(monthly,yearly){
             aggregates("#monthly_reported", monthly['reported'], monthly['reported']);
             aggregates("#annual_reported", yearly['reported'], yearly['reported']);
-
             aggregates("#monthly_registered", monthly['registered'], monthly['reported']);
             aggregates("#annual_registered", yearly['registered'], yearly['reported']);
 
@@ -433,10 +432,12 @@ function loadData(control, data) {
 
      for (var i in tablecontent){
           var tr = document.createElement("tr");
-          
+            console.log(tablecontent[i]);
 
           var row = "<td width='14.545%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='20%' id =graph"+i+"  align = 'center'></td><td width='12.72%' id=reported"+i+" align='right' style='padding-right:0.8em'></td><td width='12.72%' id=registered"+i+" align='right' style='padding-right:0.3em'></td><td width='12.72%' id=time"+i+" align='right'></td><td width='27.27%' id="+i+" align = 'center'>Bar</td>";
-          tr.innerHTML = row;
+
+         //var row = "<td width='7%' style='padding-left:2%;font-weight:bold' >"+tablecontent[i].district+"</td><td width='11%' id=reported"+i+" align='right' style='padding-right:0.8em'></td><td width='9%' id=registered"+i+" align='right' style='padding-right:0.3em'></td><td width='9%' id=time"+i+" align='right'></td><td width='9%' id="+i+" align = 'center'>Bar</td>";
+         tr.innerHTML = row;
           control.appendChild(tr);
 
           __$("right").style.height= (36*window.innerHeight/100) + "px";
@@ -460,19 +461,18 @@ function loadData(control, data) {
 
 
         for(var i in tablecontent){
-            
 
             //Total Reported
-           var district_total_reported = array_sum(tablecontent[i].reported);
+           var district_total_reported = tablecontent[i]['reported'];
                 __$("reported"+i).innerHTML=district_total_reported;
 
             //Total Registered
             
-            var district_total_registered = array_sum(tablecontent[i].registered);
+            var district_total_registered = tablecontent[i]['registered'];
              __$("registered"+i).innerHTML=district_total_registered;
 
             //Average time to register and Average Sum
-            var average = tablecontent[i].duration;
+            var average = tablecontent[i]['duration'];
             __$("time"+i).innerHTML=average;
             average_sum = average_sum + average;
             num_of_districts = parseInt(i) + 1;
@@ -483,9 +483,9 @@ function loadData(control, data) {
 
         //__$("avg_time").innerHTML = (average_sum/num_of_districts).toFixed(2);
         for (var i in tablecontent){
-            drawMiniGraph("#graph"+i, null, tablecontent[i].reported);
+            //drawMiniGraph("#graph"+i, null, tablecontent[i]['registered_array']);
           
-            drawReportToRegisterChart("#"+i,array_sum(tablecontent[i].registered),array_sum(tablecontent[i].reported));
+            drawReportToRegisterChart("#"+i,tablecontent[i]['registered'],tablecontent[i]['reported']);
         }
         
 

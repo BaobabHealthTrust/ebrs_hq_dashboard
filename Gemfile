@@ -1,8 +1,6 @@
 source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -26,7 +24,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-gem 'couchrest_model'
+gem 'mysql'
 
 gem "bcrypt-ruby", :require => "bcrypt"
 
@@ -38,16 +36,12 @@ gem 'sprockets', '2.12.3'
 
 gem 'sprockets-rails', '2.2.4'
 
-gem 'passenger', '5.0.6'
+gem 'passenger', '4.0.53'
 
 gem 'rb-readline'
 
 gem 'chronic', '0.10.2'
 
 gem 'whenever',  :require => false 
-
-gem 'liquid' 
-
-gem 'rest-client'
 
 gem 'time_diff'

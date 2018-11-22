@@ -33,17 +33,38 @@ namespace :dashboard do
   end
   desc "Rake that gets stats to file"
   task :dashboard_files => :environment do
+
+=begin      hash = {}
+      s_date = "01/01/#{(Date.today - 12.months).year}".to_date
+      e_date = "31/12/#{Date.today.year}".to_date
+
+      while (s_date < e_date)
+        hash[s_date.month] = [s_date.beginning_of_month, s_date.end_of_month]
+        s_date += 1.month
+      end
+=end
+      districts = {}
+      ActiveRecord::Base.connection.select_all("
+          SELECT l.location_id, l.name FROM location l
+          INNER JOIN location_tag_map m ON l.location_id = m.location_id
+          INNER JOIN location_tag t ON t.location_tag_id = m.location_tag_id AND t.name = 'District'
+      ").each{|l| districts[l['name']] = l['location_id'].to_i}
+
+      facility_tag_id = ActiveRecord::Base.connection.select_all("
+          SELECT location_tag_id FROM location_tag WHERE name = 'Health Facility'
+      ")[0]['location_tag_id'].to_i
+
       cycles = [0,1,2,3,4]
       for cycle in cycles
         case cycle
           when 0
-            start_date = Date.today
-            end_date = Date.today
+            start_date = Date.today.beginning_of_day
+            end_date = Date.today.end_of_day
             type = "today"
             data_file = "today.json"
           when 1
-            start_date = Date.today - 6.day
-            end_date = Date.today
+            start_date = (Date.today - 6.days).beginning_of_day
+            end_date = Date.today.end_of_day
             type = "last 7 days"
             data_file = "weekly.json"
           when 2
@@ -52,101 +73,166 @@ namespace :dashboard do
             type = "monthly"
            data_file = "monthly.json"
           when 3
-            start_date,end_date = get_quarter_dates(Date.today)
+            start_date = Date.today.beginning_of_quarter
+            end_date = Date.today.end_of_quarter
             type = "quarterly"
             data_file = "quarterly.json"
           when 4
-            start_date = Date.today - 12.month
-            end_date = Date.today
+            start_date = Date.today.beginning_of_year
+            end_date = Date.today.end_of_year
             type = "last 12 months"
             data_file = "last_12_months.json"
-          
-        end
-      
+          end
+
           results = []
-          data = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).each rescue []
-          #render :text => [].to_json if data.blank?
 
           total_duration = 0
           total_registered = 0
           total_reported = 0
-          
+
 
           CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
-          site_code = row[0]
-          district = row[1]
+            site_code = row[0]
+            district = row[1]
 
-          dt = breakdown(type, site_code, start_date, end_date, data)
-          reported = dt.collect{|a, b, c| a}
-          registered = dt.collect{|a, b, c| b}
-          duration = dt.collect{|a, b, c| c}
+            district_id = districts[district]
+            locations = [district_id]
+            (reported = ActiveRecord::Base.connection.select_all("SELECT l.location_id FROM location l
+                            INNER JOIN location_tag_map m ON l.location_id = m.location_id AND m.location_tag_id = #{facility_tag_id}
+                          WHERE l.parent_location = #{district_id} ") || []).each {|l|
+              locations << l['location_id']
+            }
 
-          total_reported += reported.sum
-          total_registered += registered.sum
-          total_duration += duration.sum
-          average = duration.sum/registered.sum rescue 0
+            #break_down = date_margins(start_date, end_date)
 
-          average_dis_hours = (average/60).to_i
-          average_dis_mins = average % 60
-          
-          if average_dis_hours < 24
-              average_dis = "#{average_dis_hours}h #{average_dis_mins}m"
-          elsif average_dis_hours >= 24
-              average_dis = "#{(average_dis_hours/24)}d #{average_dis_hours % 24}h"  
-          end
+            reported = ActiveRecord::Base.connection.select_all("
+              SELECT COUNT(*) AS total FROM person_birth_details pbd
+                INNER JOIN person_record_statuses prs ON prs.person_id = pbd.person_id AND prs.voided = 0
+                WHERE prs.created_at BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+                  AND pbd.location_created_at IN (#{locations.join(', ')})
+              ")[0]['total'].to_i
 
+            registered =  ActiveRecord::Base.connection.select_all("
+              SELECT COUNT(*) AS total FROM person_birth_details pbd
+                WHERE pbd.district_id_number IS NOT NULL
+                  AND pbd.date_registered BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+                  AND pbd.location_created_at IN (#{locations.join(', ')})
+              ")[0]['total'].to_i
 
-          results << {
-              "district" => district,
-              "reported" => reported,
-              "registered" => registered,
-              "duration"=> average_dis
+            puts "Registered # #{registered}, Reported # #{reported}"
+
+            average = ActiveRecord::Base.connection.select_all(
+                "SELECT AVG(TIMESTAMPDIFF(MINUTE, pbd.date_reported, pbd.date_registered)) AS time
+                 FROM person_birth_details pbd
+                  WHERE pbd.date_registered BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+                    AND pbd.location_created_at IN (#{locations.join(', ')});")[0]['time'].to_i
+
+            average_dis_mins = average
+            average_dis_hours = (average/60).to_i
+            average_dis_days = (average/(60*24)).to_i
+
+            if average_dis_hours < 24
+              average_dis = "#{average_dis_hours}h #{average_dis_mins % 60}m"
+            elsif average_dis_days >= 30
+              average_dis = "#{average_dis_days/30}mon #{(average_dis_days % 30)}d #{average_dis_hours % 60}h"
+            elsif average_dis_hours >= 24
+              average_dis = "#{(average_dis_hours/24)}d #{average_dis_hours % 24}h"
+            end
+
+            results << {
+                "district" => district,
+                "reported" => reported,
+                "registered" => registered,
+                "time" => average,
+                "duration"=> average_dis
             }
           end
-          case type
-          when 'today'
-            reg_date = "#{start_date.strftime('%d, %b %y')}"
-          when 'last 7 days'
-            reg_date = "#{start_date.strftime('%d, %b')} <=> #{end_date.strftime('%d, %b')}"
-          when 'monthly'
-            reg_date = start_date.strftime('%B %Y')
-          when 'quarterly'
-           case start_date.month
-             when 1
-               reg_date = "Quarter 1 #{start_date.strftime('%Y')}"
-             when 4
-               reg_date = "Quarter 2 #{start_date.strftime('%Y')}"
-             when 7
-               reg_date = "Quarter 3 #{start_date.strftime('%Y')}"
-             when 10
-               reg_date = "Quarter 4 #{start_date.strftime('%Y')}"
-           end
-          when 'last 12 months'
-            reg_date = "#{start_date.strftime('%d, %b %y')} - #{end_date.strftime('%d, %b %y')}"
-        end
 
-        month = Date.today
-        total_average = total_duration/total_registered rescue 0
-        
-        avg_hours = (total_average/60).to_i
-        avg_mins  = total_average % 60
-        if avg_hours < 24
-          avg = "#{avg_hours}h #{avg_mins}m"
-        elsif avg_hours >= 24
-          avg = "#{(avg_hours/24)}d #{avg_hours % 24}h"
-        end
-          output = "{\"results\"=>#{results},\"total_registered\"=> #{total_reported},\"total_approved\" => #{total_registered},\"reg_date\" => \"#{reg_date}\",\"total_duration\" => \"#{avg}\",\"current_year\" => #{get_data('cumulative')},\"current_month\" => #{get_data('monthly')},\"pie_chart_data\" => #{get_records_for_pie_chart},\"Report_freq\" => \"#{type.titleize}\"}"
-        newfile = File.new("#{Rails.root}/app/assets/data/#{data_file}" , "w+")
-        if newfile
-            newfile.syswrite(output.to_json)
-        else
-           puts "Unable to open file!"
-        end
-        puts "#{data_file} \t #{Time.now}"
-    end
+      total_reported = results.collect{|a| a['reported'] }.sum
+      total_registered = results.collect{|a| a['registered'] }.sum
+      total_duration = results.collect{|a| a['time'] }.sum
 
+      average_by_query = ActiveRecord::Base.connection.select_all(
+          "SELECT AVG(TIMESTAMPDIFF(MINUTE, pbd.date_reported, pbd.date_registered)) AS time
+                 FROM person_birth_details pbd
+                  WHERE pbd.date_registered BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}' ")[0]['time'].to_i
+
+      case type
+        when 'today'
+          reg_date = "#{start_date.strftime('%d, %b %y')}"
+        when 'last 7 days'
+          reg_date = "#{start_date.strftime('%d, %b')} <=> #{end_date.strftime('%d, %b')}"
+        when 'monthly'
+          reg_date = start_date.strftime('%B %Y')
+        when 'quarterly'
+          case start_date.month
+            when 1
+              reg_date = "Quarter 1 #{start_date.strftime('%Y')}"
+            when 4
+              reg_date = "Quarter 2 #{start_date.strftime('%Y')}"
+            when 7
+              reg_date = "Quarter 3 #{start_date.strftime('%Y')}"
+            when 10
+              reg_date = "Quarter 4 #{start_date.strftime('%Y')}"
+          end
+        when 'last 12 months'
+          reg_date = "#{start_date.strftime('%d, %b %y')} - #{end_date.strftime('%d, %b %y')}"
+      end
+
+      total_average = average_by_query
+      avg_hours = (total_average/60).to_i
+      avg_mins  = total_average
+      avg_days =  (total_average/(60*24))
+      if avg_hours < 24
+        avg = "#{avg_hours}h #{avg_mins % 60}m"
+      elsif avg_days >= 30
+        avg = "#{(avg_days/30)}mon  #{avg_days % 30}d #{avg_hours % 24}h"
+      elsif avg_hours >= 24
+        avg = "#{avg_days % 30}d #{avg_hours % 60}"
+      end
+        raise get_records_for_pie_chart(districts, facility_tag_id).inspect
+      output = {
+          "results"          => results,
+          "total_registered" => total_reported,
+          "total_approved"   => total_registered,
+          "reg_date"         => reg_date,
+          "total_duration"   => avg,
+          "current_year"     => get_data("cumulative"),
+          "current_month"    => get_data("monthly"),
+          "pie_chart_data"   => get_records_for_pie_chart(districts, facility_tag_id),
+          "Report_freq"      => type.titleize
+      }
+
+      puts "Writing to file"
+
+      File.open("#{Rails.root}/app/assets/data/#{data_file}" , "w"){|f|
+        f.write(output.to_json)
+      }
+  end
   end
 end
+
+def date_margins(start_date, end_date)
+  months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+  quarters = months.in_groups_of(3)
+
+  range = []
+  while start_date <= end_date
+
+    m = start_date.month
+    quarters.each{|a|
+      range << a if a.include?(m)
+    }
+
+    start_date += 3.months
+
+  end
+
+  range = range.uniq.compact
+  range
+end
+
 def breakdown(type, district_code, s_date, e_date,  data)
     e_date = e_date.to_time.strftime("%Y-%m-%d 23:59:59").to_time
     s_date = s_date.to_time.strftime("%Y-%m-%d 00:00:00").to_time
@@ -328,51 +414,90 @@ def breakdown(type, district_code, s_date, e_date,  data)
     end
     return result
   end
- 
+
+  def had_state(start_date, end_date, states)
+    states = "'" + states.join("', '") + "'"
+    status_ids = ActiveRecord::Base.connection.select_all("
+      SELECT status_id FROM statuses WHERE name IN (#{states})
+    ").collect{|s| s['status_id'].to_i}
+
+    total = ActiveRecord::Base.connection.select_all("
+      SELECT COUNT(DISTINCT(person_id)) total FROM person_record_statuses prs
+        WHERE prs.status_id IN (#{status_ids.join(", ")})
+          AND prs.created_at BETWEEN '#{start_date}' AND '#{end_date}'
+    ")[0]['total']
+
+    total
+  end
+
+  def has_state(start_date, end_date, states)
+    states = "'" + states.join("', '") + "'"
+    status_ids = ActiveRecord::Base.connection.select_all("
+        SELECT status_id FROM statuses WHERE name IN (#{states})
+      ").collect{|s| s['status_id'].to_i}
+
+    total = ActiveRecord::Base.connection.select_all("
+        SELECT COUNT(DISTINCT(person_id)) total FROM person_record_statuses prs
+          WHERE prs.voided = 0 AND prs.status_id IN (#{status_ids.join(", ")})
+            AND prs.created_at BETWEEN '#{start_date}' AND '#{end_date}'
+      ")[0]['total']
+
+    total
+  end
+
   def get_data(type)
     start_date, end_date = get_dates(type)
+    r = {}
 
-    reported = Statistic.by_date_doc_created.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time).count
-    registered_data = Statistic.by_date_doc_approved.startkey(start_date.strftime("%Y-%m-%d 00:00:00").to_time).endkey(end_date.strftime("%Y-%m-%d 23:59:59").to_time)
-    registered= 0
-    if type =="monthly"
-        registered_data.each do|statistic|
-            next unless statistic.date_doc_created.to_s.start_with?(start_date.strftime("%Y-%m-").to_s)
-            registered += 1
-        end
-    else
-        registered= registered_data.each.count
-    end
-    data = HQStatistic.by_reported_date.startkey(start_date).endkey(end_date).each
-    r = {"reported"=> reported, "registered" => registered, "printed"=>0, "reprinted"=>0, "incompleted"=>0, 
-         "suspected_duplicates"=>0, "amendements_requests"=>0, "verified"=> 0 }
+    r["reported"] = ActiveRecord::Base.connection.select_all("
+        SELECT COUNT(*) AS total FROM person_birth_details
+        WHERE date_reported IS NOT NULL AND date_reported BETWEEN '#{start_date}' AND '#{end_date}'
+      ")[0]['total'].to_i
 
-    (data || []).map do |d|
-      
-      r["printed"] += d.printed
-      r["reprinted"] += d.reprinted
-      r["incompleted"] += d.incomplete
-      r["suspected_duplicates"] += d.suspectd_duplicates
-      r["amendements_requests"] += d.amendements_requests 
-      r["verified"] += d.approved
-    end
-    return r
+    r["registered"] = ActiveRecord::Base.connection.select_all("
+        SELECT COUNT(*) AS total FROM person_birth_details
+        WHERE date_registered IS NOT NULL AND date_registered BETWEEN '#{start_date}' AND '#{end_date}'
+      ")[0]['total'].to_i
+
+    r["printed"] = had_state(start_date, end_date, ["HQ-PRINTED", "HQ-DISPATCHED", "HQ-AMEND", "HQ-AMEND-REJECTED", "HQ-AMEND-GRANTED", "HQ-AMEND-REJECTED-TBA", " HQ-CAN-REPRINT-AMEND"])
+    r["reprinted"] = had_state(start_date, end_date, ["HQ-RE-PRINT", "HQ-CAN-RE-PRINT", " HQ-CAN-REPRINT-AMEND"])
+    r["incompleted"] = had_state(start_date, end_date, ["HQ-INCOMPLETE", "HQ-INCOMPLETE-TBA"])
+    r["suspected_duplicates"] = had_state(start_date, end_date, ["HQ-POTENTIAL DUPLICATE", "HQ-POTENTIAL DUPLICATE-TBA", "HQ-CONFLICT-DUPLICATE", "HQ-DUPLICATE", "HQ-VOIDED DUPLICATE",
+                                          "HQ-EXACT DUPLICATE", "HQ-NOT DUPLICATE-TBA", "HQ-NOT DUPLICATE"])
+    r["amendements_requests"] = had_state(start_date, end_date, ["HQ-AMEND", "HQ-AMEND-REJECTED", "HQ-AMEND-GRANTED", "HQ-AMEND-REJECTED-TBA", " HQ-CAN-REPRINT-AMEND"])
+    r["verified"] = had_state(start_date, end_date, ["HQ-COMPLETE", "HQ-PRINTED", "HQ-DISPATCHED", "HQ-RE-PRINT", "HQ-CAN-RE-PRINT", " HQ-CAN-REPRINT-AMEND",
+                              "HQ-AMEND", "HQ-AMEND-REJECTED", "HQ-AMEND-GRANTED", "HQ-AMEND-REJECTED-TBA", " HQ-CAN-REPRINT-AMEND"])
+
+    r
   end
   
-  def get_records_for_pie_chart
+  def get_records_for_pie_chart(districts, facility_tag_id)
     results = []
     start_date = Date.today.beginning_of_year
-    end_date = Date.today
+    end_date = Date.today.end_of_day
 
     CSV.foreach("#{Rails.root}/app/assets/data/districts_with_codes.csv", :headers => true) do |row|
       site_code = row[0]
       district = row[1]
-      reported = Statistic.by_site_code_and_date_doc_created.startkey([site_code,start_date.strftime("%Y-%m-%d 00:00:00").to_time]).endkey([site_code,end_date.strftime("%Y-%m-%d 23:59:59").to_time]).count
+
+      district_id = districts[district]
+      locations = [district_id]
+      (reported = ActiveRecord::Base.connection.select_all("SELECT l.location_id FROM location l
+                            INNER JOIN location_tag_map m ON l.location_id = m.location_id AND m.location_tag_id = #{facility_tag_id}
+                          WHERE l.parent_location = #{district_id} ") || []).each {|l|
+        locations << l['location_id']
+      }
+
+      reported = ActiveRecord::Base.connection.select_all("
+              SELECT COUNT(*) AS total FROM person_birth_details pbd
+                WHERE pbd.date_reported BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+                  AND pbd.location_created_at IN (#{locations.join(', ')})
+              ")[0]['total'].to_i
 
       results << { "district" => district, "reported" => reported, "site_code" => site_code }
     end
     
-    return results
+    results
   end
 
   def get_month_break_down
