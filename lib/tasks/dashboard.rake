@@ -107,8 +107,7 @@ namespace :dashboard do
 
             reported = ActiveRecord::Base.connection.select_all("
               SELECT COUNT(*) AS total FROM person_birth_details pbd
-                INNER JOIN person_record_statuses prs ON prs.person_id = pbd.person_id AND prs.voided = 0
-                WHERE prs.created_at BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+                WHERE pbd.created_at BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
                   AND pbd.location_created_at IN (#{locations.join(', ')})
               ")[0]['total'].to_i
 
@@ -451,7 +450,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
 
     r["reported"] = ActiveRecord::Base.connection.select_all("
         SELECT COUNT(*) AS total FROM person_birth_details
-        WHERE date_reported IS NOT NULL AND date_reported BETWEEN '#{start_date}' AND '#{end_date}'
+        WHERE created_at BETWEEN '#{start_date}' AND '#{end_date}'
       ")[0]['total'].to_i
 
     r["registered"] = ActiveRecord::Base.connection.select_all("
@@ -490,7 +489,7 @@ def breakdown(type, district_code, s_date, e_date,  data)
 
       reported = ActiveRecord::Base.connection.select_all("
               SELECT COUNT(*) AS total FROM person_birth_details pbd
-                WHERE pbd.date_reported BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+                WHERE pbd.created_at BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
                   AND pbd.location_created_at IN (#{locations.join(', ')})
               ")[0]['total'].to_i
 
