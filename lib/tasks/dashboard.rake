@@ -134,7 +134,7 @@ namespace :dashboard do
             if average_dis_hours < 24
               average_dis = "#{average_dis_hours}h #{average_dis_mins % 60}m"
             elsif average_dis_days >= 30
-              average_dis = "#{average_dis_days/30}mon #{(average_dis_days % 30)}d #{average_dis_hours % 60}h"
+              average_dis = "#{average_dis_days/30}mn #{(average_dis_days % 30)}d #{average_dis_hours % 60}h"
             elsif average_dis_hours >= 24
               average_dis = "#{(average_dis_hours/24)}d #{average_dis_hours % 24}h"
             end
@@ -186,11 +186,11 @@ namespace :dashboard do
       if avg_hours < 24
         avg = "#{avg_hours}h #{avg_mins % 60}m"
       elsif avg_days >= 30
-        avg = "#{(avg_days/30)}mon  #{avg_days % 30}d #{avg_hours % 24}h"
+        avg = "#{(avg_days/30)}mn  #{avg_days % 30}d #{avg_hours % 24}h"
       elsif avg_hours >= 24
         avg = "#{avg_days % 30}d #{avg_hours % 60}"
       end
-        raise get_records_for_pie_chart(districts, facility_tag_id).inspect
+
       output = {
           "results"          => results,
           "total_registered" => total_reported,
